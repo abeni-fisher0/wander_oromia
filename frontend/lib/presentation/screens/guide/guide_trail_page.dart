@@ -1,5 +1,6 @@
 // ✅ Guide Trail Page (same as tourist but with "Guide" button)
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/widgets/bottom_nav.dart';
 import 'package:go_router/go_router.dart';
 import '../../widgets/guide_bottom_nav.dart';
 

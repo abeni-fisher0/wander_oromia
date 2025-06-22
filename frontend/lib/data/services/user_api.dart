@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'api_service.dart';
 
 class UserApi {
@@ -14,11 +15,14 @@ class UserApi {
     return res.statusCode == 200;
   }
 
-  Future<bool> registerUser(String role, String username) async {
-    final res = await _api.post("/auth/register", {
-      "role": role,
-      "username": username,
-    });
-    return res.statusCode == 200;
+  Future<http.Response> registerUser(String token, String role) {
+    return http.post(
+      Uri.parse("${_api.baseUrl}/auth/register"),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({"role": role}),
+    );
   }
 }
