@@ -72,3 +72,5 @@ class CulturalTipsPage extends StatelessWidget {
     );
   }
 }
+
+
