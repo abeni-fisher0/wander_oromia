@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "127162471985",
+    "project_id": "wander-oromia",
+    "storage_bucket": "wander-oromia.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127162471985:android:afcdaaa0eba4dad2456710",
+        "android_client_info": {
+          "package_name": "com.abenezer.wanderoromia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVELML9OQITz3O8yzULBEaKuqIplcCId4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127162471985:android:7cdbc14a48c7435b456710",
+        "android_client_info": {
+          "package_name": "com.example.frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVELML9OQITz3O8yzULBEaKuqIplcCId4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127162471985:android:77522015bc5cb96c456710",
+        "android_client_info": {
+          "package_name": "com.example.wander_oromia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVELML9OQITz3O8yzULBEaKuqIplcCId4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
