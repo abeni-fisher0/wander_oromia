@@ -24,7 +24,7 @@ class GuideBottomNavBar extends StatelessWidget {
             context.go('/guidesaved');
             break;
           case 3:
-            context.go('/profile');
+            context.go('/guide-profile');
             break;
         }
       },

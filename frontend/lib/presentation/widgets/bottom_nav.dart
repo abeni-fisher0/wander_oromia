@@ -28,6 +28,9 @@ class BottomNavBar extends StatelessWidget {
           case 4:
             GoRouter.of(context).go('/culture');
             break;
+          case 5:
+            GoRouter.of(context).go('/tourist-profile');
+            break;
         }
       },
       items: const [
@@ -36,6 +39,7 @@ class BottomNavBar extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(Icons.terrain), label: ''),
         BottomNavigationBarItem(icon: Icon(Icons.map), label: ''),
         BottomNavigationBarItem(icon: Icon(Icons.lightbulb), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
       ],
     );
   }

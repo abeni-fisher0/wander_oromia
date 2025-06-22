@@ -1,5 +1,5 @@
-// saved_trails_page.dart
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../widgets/bottom_nav.dart';
 
 class SavedTrailsPage extends StatelessWidget {
@@ -18,10 +18,14 @@ class SavedTrailsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Saved Trails'),
         backgroundColor: Colors.green,
-        actions: [
+        actions: const [
           Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Image.asset('assets/images/flag.png', height: 24),
+            padding: EdgeInsets.only(right: 16),
+            child: Image(
+              image: AssetImage('assets/images/flag.png'),
+              height: 24,
+              width: 24,
+            ),
           ),
         ],
       ),
@@ -31,18 +35,51 @@ class SavedTrailsPage extends StatelessWidget {
         itemCount: savedTrails.length,
         itemBuilder: (context, index) {
           final trail = savedTrails[index];
-          return Card(
-            color: Colors.green.shade50,
+          return Container(
             margin: const EdgeInsets.symmetric(vertical: 8),
-            child: ListTile(
-              leading: Container(
-                height: 40,
-                width: 40,
-                color: Colors.grey.shade300,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFDFFFD9),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: InkWell(
+              onTap: () => context.push('/itinerary'),
+              child: Row(
+                children: [
+                  // 📷 Image placeholder (Figma-style grey rounded box)
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade400,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.image, color: Colors.white70),
+                  ),
+                  const SizedBox(width: 12),
+                  // 🖋️ Title and category
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        trail['title'] ?? '',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        trail['category'] ?? '',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              title: Text(trail['title'] ?? ''),
-              subtitle: Text(trail['category'] ?? ''),
-              onTap: () {},
             ),
           );
         },

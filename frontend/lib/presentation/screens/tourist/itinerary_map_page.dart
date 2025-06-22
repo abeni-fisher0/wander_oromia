@@ -7,7 +7,11 @@ class ItineraryMapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Itinerary and Map')),
+      appBar: AppBar(
+        title: const Text('Itinerary and Map'),
+        backgroundColor: Colors.green,
+      ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 3),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -28,24 +32,26 @@ class ItineraryMapPage extends StatelessWidget {
             "cool place 2",
           ], 'assets/images/goba.png'),
           const SizedBox(height: 20),
-          Image.asset('assets/images/map.png'), // Add your local map image
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset('assets/images/map.png', fit: BoxFit.cover),
+          ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 3),
     );
   }
 
   Widget _dayItem(String title, List<String> places, String imgPath) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
+      padding: const EdgeInsets.only(bottom: 16.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipOval(
             child: Image.asset(
               imgPath,
-              width: 50,
-              height: 50,
+              width: 55,
+              height: 55,
               fit: BoxFit.cover,
             ),
           ),
@@ -56,9 +62,15 @@ class ItineraryMapPage extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
                 ),
-                ...places.map((p) => Text('- $p')),
+                const SizedBox(height: 4),
+                ...places.map(
+                  (p) => Text('- $p', style: const TextStyle(fontSize: 14)),
+                ),
               ],
             ),
           ),

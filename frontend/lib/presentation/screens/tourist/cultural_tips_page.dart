@@ -7,45 +7,61 @@ class CulturalTipsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Cultural Tips')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          _tipCard("Cultural Dress", [
-            "Dress Modestly",
-            "Meals are communal. Wash hands and wait to be invited.",
-            "Use polite language. Age is honored.",
-            "Respect mosques & churches.",
-          ]),
-          _tipCard("Cleanliness & Shoes", [
-            "Remove shoes when entering someone’s home.",
-            "Carry hand sanitizer or wet wipes.",
-            "Respect indoor/outdoor spaces.",
-          ]),
-          _tipCard("Greetings", [
-            "Hi = Akkam",
-            "Hello = Nagaan bula",
-            "Thank you = Galatoomi",
-            "Goodbye = Nagaatti",
-          ]),
-          _tipCard("Food & Drink", [
-            "I’m hungry = Beela’eera",
-            "I don’t eat meat = Foon hin nyaadhu",
-            "Delicious = Mi’aawe",
-          ], color: Colors.lightGreen[200]!),
+      appBar: AppBar(
+        title: const Text('Cultural Tips'),
+        backgroundColor: Colors.green,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Image.asset('assets/images/flag.png', height: 24),
+          ),
         ],
       ),
       bottomNavigationBar: const BottomNavBar(currentIndex: 4),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _tipCard("🎀 Cultural Dress", [
+            "🧕 Dress Modestly",
+            "🍽️ Injera Meal/Eat Together: Meals are communal. Wash hands and wait to be invited.",
+            "🗣️ Honor the Hierarchy/Elders: Use polite language. Age is honored.",
+            "🕌 Mosque or Church/Religious Respect: Dress conservatively.",
+          ]),
+          _tipCard("🧼 Cleanliness & Shoes", [
+            "🥿 Remove your shoes when entering someone’s home, mosque, or some churches.",
+            "🧴 Always carry hand sanitizer or wet wipes—some rural areas lack restrooms and toilets.",
+            "🛑 In rural areas, men and women may have traditional roles.",
+            "👂 Tourists follow the lead of locals and ask politely if something is unclear.",
+          ]),
+          Row(
+            children: [
+              Expanded(
+                child: _tipCard("👋 Greetings & Introductions", [
+                  "👋 Hello = Akkam",
+                  "🫱 Hi = Akkam jirta?",
+                  "🙏 Thank you = Galatoomi",
+                  "🚶 Goodbye = Nagaatti",
+                ]),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _tipCard("🍽️ Food & Drink", [
+                  "😋 I’m hungry = Beela’eera",
+                  "🥬 I don’t eat meat = Foon hin nyaadhu",
+                  "🤤 Delicious! = Mi’aawe!",
+                  "🚰 Water, please = Bishaan mee",
+                ]),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _tipCard(
-    String title,
-    List<String> points, {
-    Color color = Colors.white,
-  }) {
+  Widget _tipCard(String title, List<String> tips) {
     return Card(
-      color: color,
+      color: Colors.lightGreen.shade100,
       margin: const EdgeInsets.only(bottom: 16),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -57,13 +73,10 @@ class CulturalTipsPage extends StatelessWidget {
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            ...points.map(
-              (p) => Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("• ", style: TextStyle(fontSize: 14)),
-                  Expanded(child: Text(p)),
-                ],
+            ...tips.map(
+              (tip) => Padding(
+                padding: const EdgeInsets.only(bottom: 6),
+                child: Text(tip, style: const TextStyle(fontSize: 14)),
               ),
             ),
           ],
@@ -72,5 +85,3 @@ class CulturalTipsPage extends StatelessWidget {
     );
   }
 }
-
-
