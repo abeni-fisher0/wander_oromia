@@ -243,7 +243,7 @@ class _FinalSlide extends StatelessWidget {
     return Stack(
       children: [
         Image.asset(
-          'assets/images/bushbuck.jpg',
+          'assets/images/antelope.jpg',
           fit: BoxFit.cover,
           height: double.infinity,
           width: double.infinity,
