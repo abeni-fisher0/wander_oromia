@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Token Getter Fixed</title>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+        connectAuthEmulator
+      } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "fake-api-key",
+        authDomain: "localhost"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      connectAuthEmulator(auth, "http://localhost:9099"); // ✅ Correct way in modular SDK
+
+      window.signIn = async function () {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        try {
+          const userCred = await signInWithEmailAndPassword(auth, email, password);
+          const token = await userCred.user.getIdToken();
+          console.log("✅ Token:", token);
+          document.getElementById("token").innerText = token;
+        } catch (err) {
+          console.error("❌ Error:", err.message);
+          document.getElementById("token").innerText = "Error: " + err.message;
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <h2>🔥 Firebase Token Debug (Fixed)</h2>
+    <input type="email" id="email" value="test@wanderoromia.com" />
+    <br />
+    <input type="password" id="password" value="test1234" />
+    <br />
+    <button onclick="signIn()">Get Token</button>
+    <pre id="token" style="white-space: pre-wrap;"></pre>
+  </body>
+</html>
