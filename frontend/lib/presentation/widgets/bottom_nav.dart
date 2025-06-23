@@ -12,8 +12,10 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
-        selectedItemColor: const Color(0xFF145A32),     // ✅ dark green (active icon)
-        unselectedItemColor: const Color(0xFF145A32),
+        backgroundColor: const Color(0xFF145A32), // ✅ dark green background
+    selectedItemColor: Colors.white,          // ✅ white icon (selected)
+    unselectedItemColor: Colors.white,        // ✅ white icon (unselected)
+    type: BottomNavigationBarType.fixed,      // ✅ prevents shifting behavior
       onTap: (index) {
         switch (index) {
           case 0:
@@ -22,19 +24,17 @@ class BottomNavBar extends StatelessWidget {
           case 1:
             GoRouter.of(context).go('/saved');
             break;
-          case 4:
+          case 2:
             GoRouter.of(context).go('/culture');
             break;
-          case 5:
+          case 3:
             GoRouter.of(context).go('/tourist-profile');
             break;
         }
       },
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.terrain), label: ''),
-        BottomNavigationBarItem(icon: Icon(Icons.map), label: ''),
+        BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: ''), 
         BottomNavigationBarItem(icon: Icon(Icons.lightbulb), label: ''),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
       ],
