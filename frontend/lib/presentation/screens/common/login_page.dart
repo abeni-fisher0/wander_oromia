@@ -1,7 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:frontend/data/services/auth_service.dart';
-import 'package:frontend/data/services/user_api.dart';
+import 'package:frontend/data/services/profile_service.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -21,29 +21,42 @@ class _LoginPageState extends State<LoginPage> {
     final password = _passwordController.text.trim();
 
     try {
-      // 1. Sign in with Firebase
-      final token = await AuthService().signIn(email, password);
+      final error = await AuthService.login(email, password);
 
-      if (token == null) {
-        throw Exception("Login failed. No token returned.");
+      if (error == null) {
+        final user = await ProfileService.getProfile();
+
+        if (user == null) {
+          _showError("Could not fetch user profile.");
+          return;
+        }
+
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("✅ Login successful!")));
+
+        // ✅ Role-based navigation
+        if (user.role == "tourist") {
+          context.go("/home");
+        } else if (user.role == "guide") {
+          context.go("/guide-home");
+        } else {
+          _showError("Unknown role: ${user.role}");
+        }
+      } else {
+        _showError(error);
       }
-
-      // 2. Hit /user/me to confirm account and fetch profile
-      final profile = await UserApi().getProfile();
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("✅ Login successful!")));
-
-      // 3. Navigate to home screen
-      Navigator.pushReplacementNamed(context, "/home");
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Error: $e")));
+      _showError(e.toString().replaceFirst("Exception: ", ""));
     } finally {
       setState(() => isLoading = false);
     }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -57,13 +70,14 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'Email'),
+              keyboardType: TextInputType.emailAddress,
             ),
             TextField(
               controller: _passwordController,
               decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             ElevatedButton(
               onPressed: isLoading ? null : _handleLogin,
               child:

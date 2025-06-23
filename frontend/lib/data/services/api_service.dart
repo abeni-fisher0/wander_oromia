@@ -1,29 +1,38 @@
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'auth_service.dart';
+
+const String baseUrl = 'http://192.168.1.11:5000/api';
 
 class ApiService {
-  final String baseUrl = "http://10.0.2.2:5001/wander-oromia/us-central1/api";
-  final _auth = AuthService();
-
-  Future<Map<String, String>> getHeaders() async {
-    final token = await _auth.getToken();
-    return {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
+  static Future<String?> _getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
   }
 
-  Future<http.Response> get(String endpoint) async {
-    final headers = await getHeaders();
-    return http.get(Uri.parse("$baseUrl$endpoint"), headers: headers);
+  static Future<http.Response> get(String endpoint, {bool auth = false}) async {
+    final token = auth ? await _getToken() : null;
+    return http.get(
+      Uri.parse('$baseUrl$endpoint'),
+      headers: {
+        'Content-Type': 'application/json',
+        if (auth) 'Authorization': 'Bearer $token',
+      },
+    );
   }
 
-  Future<http.Response> post(String endpoint, Map<String, dynamic> body) async {
-    final headers = await getHeaders();
+  static Future<http.Response> post(
+    String endpoint,
+    dynamic body, {
+    bool auth = false,
+  }) async {
+    final token = auth ? await _getToken() : null;
     return http.post(
-      Uri.parse("$baseUrl$endpoint"),
-      headers: headers,
+      Uri.parse('$baseUrl$endpoint'),
+      headers: {
+        'Content-Type': 'application/json',
+        if (auth) 'Authorization': 'Bearer $token',
+      },
       body: jsonEncode(body),
     );
   }

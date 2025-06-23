@@ -1,11 +1,11 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:frontend/data/services/auth_service.dart';
-import 'package:frontend/data/services/user_api.dart';
-import 'package:http/http.dart' as http;
+import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  final String? role;
+
+  const SignUpPage({Key? key, this.role}) : super(key: key);
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -14,80 +14,94 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _fullNameController = TextEditingController();
+  final _phoneController = TextEditingController();
+
   bool isLoading = false;
   String? role;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final args = ModalRoute.of(context)?.settings.arguments;
-    if (args is String) {
-      role = args;
-    }
+  void initState() {
+    super.initState();
+    role = widget.role;
   }
 
   Future<void> _handleSignUp() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final fullName = _fullNameController.text.trim();
+    final phone = _phoneController.text.trim();
+
     if (role == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please select a role first.")),
-      );
+      _showError("Please select a role first.");
+      return;
+    }
+
+    if (email.isEmpty || password.isEmpty || fullName.isEmpty) {
+      _showError("All fields are required.");
       return;
     }
 
     setState(() => isLoading = true);
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
 
-    try {
-      final token = await AuthService().signUp(email, password);
-      if (token == null) throw Exception("Signup failed. No token returned.");
+    final error = await AuthService.signup({
+      'email': email,
+      'password': password,
+      'name': fullName,
+      'phone': phone,
+      'role': role,
+    });
 
-      final res = await UserApi().registerUser(token, role!);
-      if (res.statusCode == 200 || res.statusCode == 201) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("Registered as $role!")));
-        Navigator.pushReplacementNamed(context, '/home');
-      } else {
-        final msg = _parseBackendError(res);
-        throw Exception(msg);
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Error: $e")));
-    } finally {
-      setState(() => isLoading = false);
+    setState(() => isLoading = false);
+
+    if (error == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Signed up successfully as $role!")),
+      );
+      GoRouter.of(context).go('/login');
+    } else {
+      _showError(error);
     }
   }
 
-  String _parseBackendError(http.Response res) {
-    try {
-      final Map<String, dynamic> body = jsonDecode(res.body);
-      return body['message'] ?? body['error'] ?? "Unexpected error";
-    } catch (_) {
-      return "Server error (${res.statusCode})";
-    }
+  void _showError(String message) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign Up')),
+      appBar: AppBar(title: Text('Sign Up as ${role ?? ''}')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            TextField(
+              controller: _fullNameController,
+              decoration: const InputDecoration(labelText: 'Full Name'),
+            ),
+            const SizedBox(height: 12),
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(labelText: 'Email'),
+              keyboardType: TextInputType.emailAddress,
             ),
+            const SizedBox(height: 12),
             TextField(
               controller: _passwordController,
               decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _phoneController,
+              decoration: const InputDecoration(labelText: 'Phone Number'),
+              keyboardType: TextInputType.phone,
+            ),
+            const SizedBox(height: 24),
             ElevatedButton(
               onPressed: isLoading ? null : _handleSignUp,
               child:
@@ -98,6 +112,19 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                       : const Text('Sign Up'),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Already have an account?"),
+                TextButton(
+                  onPressed: () {
+                    GoRouter.of(context).go('/login');
+                  },
+                  child: const Text("Login"),
+                ),
+              ],
             ),
           ],
         ),

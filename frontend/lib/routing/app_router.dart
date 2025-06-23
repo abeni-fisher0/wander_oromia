@@ -29,14 +29,21 @@ import '../presentation/screens/guide/guide_home_page.dart';
 
 class AppRouter {
   final router = GoRouter(
-    initialLocation: '/guide_edit',
+    initialLocation: '/',
     routes: [
       GoRoute(path: '/', builder: (context, state) => const LandingPage()),
       GoRoute(
         path: '/role',
         builder: (context, state) => const RoleSelectionPage(),
       ),
-      GoRoute(path: '/signup', builder: (context, state) => const SignUpPage()),
+      GoRoute(
+        path: '/signup',
+        builder: (context, state) {
+          final role = state.uri.queryParameters['role'];
+          return SignUpPage(role: role);
+        },
+      ),
+
       GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
 
       // Tourist Home Page
