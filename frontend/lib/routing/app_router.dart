@@ -1,5 +1,6 @@
 // routing/app_router.dart
 import 'package:flutter/material.dart';
+import 'package:frontend/data/models/user_model.dart';
 import 'package:go_router/go_router.dart';
 
 // Common Pages
@@ -81,9 +82,26 @@ class AppRouter {
         path: '/tourist-profile',
         builder: (context, state) => const TouristProfilePage(),
       ),
+      // In your router file
+      // In your router file
       GoRoute(
         path: '/edit-tourist-profile',
-        builder: (context, state) => const EditTouristProfilePage(),
+        pageBuilder: (context, state) {
+          try {
+            final user = state.extra as AppUser;
+            return MaterialPage(
+              child: EditTouristProfilePage(initialUser: user),
+            );
+          } catch (e) {
+            // Fallback if something goes wrong
+            return MaterialPage(
+              child: Scaffold(
+                appBar: AppBar(title: Text('Error')),
+                body: Center(child: Text('Could not load profile')),
+              ),
+            );
+          }
+        },
       ),
 
       // 🧭 Guide Routes

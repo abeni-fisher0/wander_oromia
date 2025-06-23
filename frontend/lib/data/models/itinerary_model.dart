@@ -18,24 +18,27 @@ class ItineraryModel {
       id: json['_id'],
       userId: json['userId'],
       trailId: json['trailId'],
-      stops:
-          (json['stops'] as List)
-              .map((s) => ItineraryStop.fromJson(s))
-              .toList(),
+      stops: (json['stops'] as List)
+          .map((s) => ItineraryStop.fromJson(s))
+          .toList(),
     );
   }
 }
 
 class ItineraryStop {
-  final String stopId;
+  final StopModel stop;
   final int day;
   final String? notes;
 
-  ItineraryStop({required this.stopId, required this.day, this.notes});
+  ItineraryStop({
+    required this.stop,
+    required this.day,
+    this.notes,
+  });
 
   factory ItineraryStop.fromJson(Map<String, dynamic> json) {
     return ItineraryStop(
-      stopId: json['stopId'],
+      stop: StopModel.fromJson(json['stopId']),
       day: json['day'],
       notes: json['notes'],
     );
