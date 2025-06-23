@@ -1,7 +1,5 @@
 // routing/app_router.dart
 import 'package:flutter/material.dart';
-import 'package:frontend/presentation/screens/tourist/edit_profile_page.dart';
-import 'package:frontend/presentation/screens/tourist/profile_page.dart';
 import 'package:go_router/go_router.dart';
 
 // Common Pages
@@ -19,30 +17,28 @@ import '../presentation/screens/tourist/stop_page.dart';
 import '../presentation/screens/tourist/saved_trails.dart' as tourist;
 import '../presentation/screens/tourist/itinerary_map_page.dart';
 import '../presentation/screens/tourist/cultural_tips_page.dart';
+import '../presentation/screens/tourist/profile_page.dart';
+import '../presentation/screens/tourist/edit_profile_page.dart';
 
-// Tour Guide Pages
-import '../presentation/screens/guide/upload_info_page.dart';
+// Guide Pages
+import '../presentation/screens/guide/guide_home_page.dart';
+import '../presentation/screens/guide/guide_trail_page.dart';
 import '../presentation/screens/guide/guide_saved_trails.dart' as guide;
 import '../presentation/screens/guide/profile_page.dart';
 import '../presentation/screens/guide/edit_profile_page.dart';
-import '../presentation/screens/guide/guide_home_page.dart';
-import '../presentation/screens/guide/guide_trail_page.dart';
-
-
+import '../presentation/screens/guide/upload_info_page.dart';
 
 class AppRouter {
   final router = GoRouter(
-<<<<<<< HEAD
     initialLocation: '/',
-=======
-    initialLocation: '/home',
->>>>>>> bdd0150ee0449159f15d497da51f80341f3b1123
     routes: [
       GoRoute(path: '/', builder: (context, state) => const LandingPage()),
+
       GoRoute(
         path: '/role',
         builder: (context, state) => const RoleSelectionPage(),
       ),
+
       GoRoute(
         path: '/signup',
         builder: (context, state) {
@@ -53,10 +49,8 @@ class AppRouter {
 
       GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
 
-      // Tourist Home Page
-      GoRoute(path: '/home', builder: (context, state) => const HomePage()),
-
       // 🌍 Tourist Routes
+      GoRoute(path: '/home', builder: (context, state) => const HomePage()),
       GoRoute(
         path: '/trail/:category',
         builder: (context, state) {
@@ -83,7 +77,6 @@ class AppRouter {
         path: '/culture',
         builder: (context, state) => const CulturalTipsPage(),
       ),
-
       GoRoute(
         path: '/tourist-profile',
         builder: (context, state) => const TouristProfilePage(),
@@ -93,19 +86,18 @@ class AppRouter {
         builder: (context, state) => const EditTouristProfilePage(),
       ),
 
-      //  Tour Guide Routes
+      // 🧭 Guide Routes
       GoRoute(
         path: '/guidehome',
         builder: (context, state) => const GuideHomePage(),
       ),
       GoRoute(
-  path: "/guidetrail/:title",
-  builder: (context, state) {
-    final title = state.pathParameters['title']!;
-    return GuideTrailPage(title: title);
-  },
-),
-
+        path: '/guidetrail/:title',
+        builder: (context, state) {
+          final title = state.pathParameters['title']!;
+          return GuideTrailPage(title: title);
+        },
+      ),
       GoRoute(
         path: '/upload',
         builder: (context, state) => const UploadInfoPage(),

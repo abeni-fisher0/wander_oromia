@@ -7,48 +7,6 @@ class RoleSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
-      appBar: AppBar(title: const Text('Choose Your Role')),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Get started as:',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton.icon(
-                onPressed: () => context.go('/signup?role=tourist'),
-                icon: const Icon(Icons.travel_explore),
-                label: const Text('Tourist'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  minimumSize: const Size.fromHeight(50),
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton.icon(
-                onPressed: () => context.go('/signup?role=guide'),
-                icon: const Icon(Icons.map),
-                label: const Text('Tour Guide'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  minimumSize: const Size.fromHeight(50),
-                ),
-              ),
-            ],
-          ),
-        ),
-=======
       body: Stack(
         children: [
           // Background Image
@@ -88,7 +46,7 @@ class RoleSelectionPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Transform.rotate(
-                  angle: -0.25, // More tilt left
+                  angle: -0.25,
                   child: const Text(
                     'Wander\nOromia',
                     textAlign: TextAlign.right,
@@ -140,8 +98,7 @@ class RoleSelectionPage extends StatelessWidget {
                       width: 240,
                       child: _RoleButton(
                         label: 'Tourist',
-                        onPressed:
-                            () => Navigator.pushNamed(context, '/signup'),
+                        onPressed: () => context.go('/signup?role=tourist'),
                       ),
                     ),
                   ),
@@ -153,8 +110,7 @@ class RoleSelectionPage extends StatelessWidget {
                       width: 240,
                       child: _RoleButton(
                         label: 'Tour Guide',
-                        onPressed:
-                            () => Navigator.pushNamed(context, '/signup'),
+                        onPressed: () => context.go('/signup?role=guide'),
                       ),
                     ),
                   ),
@@ -163,7 +119,6 @@ class RoleSelectionPage extends StatelessWidget {
             ),
           ),
         ],
->>>>>>> bdd0150ee0449159f15d497da51f80341f3b1123
       ),
     );
   }
@@ -201,32 +156,14 @@ class RoleTrailPainter extends CustomPainter {
     final paint =
         Paint()
           ..color = Colors.lightGreenAccent
-          ..strokeWidth =
-              5 // ✅ Thicker line
+          ..strokeWidth = 5
           ..style = PaintingStyle.stroke
-          ..strokeCap = StrokeCap.round; // optional: round line edges
+          ..strokeCap = StrokeCap.round;
 
     final path = Path();
-    path.moveTo(0, 20); // Start from arc
-
-    // ✅ Use smoother cubic Bezier curves for natural flow
-    path.cubicTo(
-      100,
-      100, // Control point 1
-      180,
-      80, // Control point 2
-      240,
-      160, // End point of first curve
-    );
-
-    path.cubicTo(
-      280,
-      200, // Control point 1
-      260,
-      260, // Control point 2
-      290,
-      280, // End point of second curve (extends deeper)
-    );
+    path.moveTo(0, 20);
+    path.cubicTo(100, 100, 180, 80, 240, 160);
+    path.cubicTo(280, 200, 260, 260, 290, 280);
 
     canvas.drawPath(path, paint);
   }
