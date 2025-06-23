@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:frontend/presentation/widgets/bottom_nav.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -88,6 +89,9 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 0,
+      ), // 👈 Added this line
       body: SafeArea(
         child: ListView(
           children: [

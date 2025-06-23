@@ -96,7 +96,7 @@ class TouristProfilePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBar(currentIndex: 5),
+      bottomNavigationBar: BottomNavBar(currentIndex: 3),
     );
   }
 }

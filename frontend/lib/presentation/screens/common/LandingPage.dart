@@ -182,15 +182,19 @@ class BottomCurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    path.lineTo(0, size.height - 60);
-    path.quadraticBezierTo(
-      size.width / 2,
-      size.height + 60,
-      size.width,
-      size.height - 60,
-    );
-    path.lineTo(size.width, 0);
+
+    // Start from bottom-left
+    path.moveTo(0, 60); // left side (higher)
+
+    // Slanted wave: from top-left to top-right
+    path.quadraticBezierTo(size.width * 0.25, 0, size.width * 0.5, 20);
+    path.quadraticBezierTo(size.width * 0.75, 40, size.width, 20);
+
+    // Complete the container box
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
     path.close();
+
     return path;
   }
 
@@ -213,14 +217,14 @@ class _QuoteSlide extends StatelessWidget {
           width: double.infinity,
         ),
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 100),
+          padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 50),
           child: Align(
             alignment: Alignment.topLeft,
             child: Text(
-              '“More than a\ntrip — a cultural\njourney.”',
+              '“More than a\ntrip — a \n cultural\njourney.”',
               style: TextStyle(
                 fontFamily: 'IrishGrover',
-                fontSize: 26,
+                fontSize: 38,
                 height: 1.3,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -242,12 +246,42 @@ class _FinalSlide extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        // 🦌 Background
         Image.asset(
           'assets/images/antelope.jpg',
           fit: BoxFit.cover,
           height: double.infinity,
           width: double.infinity,
         ),
+
+        // ✨ Trail + Stars group, centered
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.center,
+            child: Transform.translate(
+              offset: const Offset(70, 0), // Shift left/right if needed
+              child: Stack(
+                children: [
+                  // Trail
+                  CustomPaint(
+                    size: Size(300, 400),
+                    painter: SparkleTrailPainter(),
+                  ),
+
+                  // Glowing Stars along path (positions relative to trail box)
+                  const Positioned(top: 0, left: 10, child: GlowingStar()),
+                  const Positioned(top: 40, left: 80, child: GlowingStar()),
+                  const Positioned(top: 100, left: 50, child: GlowingStar()),
+                  const Positioned(top: 160, left: 120, child: GlowingStar()),
+                  const Positioned(top: 220, left: 90, child: GlowingStar()),
+                  const Positioned(top: 280, left: 140, child: GlowingStar()),
+                ],
+              ),
+            ),
+          ),
+        ),
+
+        // 📜 Text + Button
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
           child: Column(
@@ -279,10 +313,10 @@ class _FinalSlide extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () => GoRouter.of(context).go('/role'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: const Color(0xFF12810E),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 40,
-                      vertical: 12,
+                      vertical: 16,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -290,7 +324,11 @@ class _FinalSlide extends StatelessWidget {
                   ),
                   child: const Text(
                     'Get Started',
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -301,4 +339,55 @@ class _FinalSlide extends StatelessWidget {
       ],
     );
   }
+}
+
+class GlowingStar extends StatelessWidget {
+  final double size;
+
+  const GlowingStar({super.key, this.size = 30});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.yellowAccent.withOpacity(0.8),
+            blurRadius: 15,
+            spreadRadius: 5,
+          ),
+        ],
+      ),
+      child: const Text('⭐️', style: TextStyle(fontSize: 24)),
+    );
+  }
+}
+
+class SparkleTrailPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint =
+        Paint()
+          ..color = Colors.yellowAccent
+          ..strokeWidth = 2
+          ..style = PaintingStyle.stroke;
+
+    final path = Path();
+    path.moveTo(20, 10); // Star 1
+
+    path.quadraticBezierTo(60, 30, 90, 50); // Star 2
+    path.quadraticBezierTo(70, 90, 60, 110); // Star 3
+    path.quadraticBezierTo(100, 140, 130, 160); // Star 4
+    path.quadraticBezierTo(100, 200, 110, 230); // Star 5
+    path.quadraticBezierTo(140, 260, 160, 290); // Star 6
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

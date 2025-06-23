@@ -26,10 +26,17 @@ import '../presentation/screens/guide/guide_saved_trails.dart' as guide;
 import '../presentation/screens/guide/profile_page.dart';
 import '../presentation/screens/guide/edit_profile_page.dart';
 import '../presentation/screens/guide/guide_home_page.dart';
+import '../presentation/screens/guide/guide_trail_page.dart';
+
+
 
 class AppRouter {
   final router = GoRouter(
+<<<<<<< HEAD
     initialLocation: '/',
+=======
+    initialLocation: '/home',
+>>>>>>> bdd0150ee0449159f15d497da51f80341f3b1123
     routes: [
       GoRoute(path: '/', builder: (context, state) => const LandingPage()),
       GoRoute(
@@ -91,6 +98,14 @@ class AppRouter {
         path: '/guidehome',
         builder: (context, state) => const GuideHomePage(),
       ),
+      GoRoute(
+  path: "/guidetrail/:title",
+  builder: (context, state) {
+    final title = state.pathParameters['title']!;
+    return GuideTrailPage(title: title);
+  },
+),
+
       GoRoute(
         path: '/upload',
         builder: (context, state) => const UploadInfoPage(),

@@ -54,7 +54,7 @@ class _UploadInfoPageState extends State<UploadInfoPage> {
                 ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   child: Image(
-                    image: AssetImage("assets/images/guide.png"),
+                    image: AssetImage("assets/images/tourguide.jpg"),
                     width: 120,
                     height: 120,
                     fit: BoxFit.cover,

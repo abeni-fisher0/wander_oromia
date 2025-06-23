@@ -17,7 +17,7 @@ class CulturalTipsPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 4),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 2),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
