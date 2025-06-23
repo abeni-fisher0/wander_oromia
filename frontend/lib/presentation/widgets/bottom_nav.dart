@@ -6,11 +6,14 @@ import 'package:go_router/go_router.dart';
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
   const BottomNavBar({super.key, required this.currentIndex});
+  
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
+        selectedItemColor: const Color(0xFF145A32),     // ✅ dark green (active icon)
+        unselectedItemColor: const Color(0xFF145A32),
       onTap: (index) {
         switch (index) {
           case 0:
@@ -18,12 +21,6 @@ class BottomNavBar extends StatelessWidget {
             break;
           case 1:
             GoRouter.of(context).go('/saved');
-            break;
-          case 2:
-            GoRouter.of(context).go('/trail/Coffee Trail'); // optional
-            break;
-          case 3:
-            GoRouter.of(context).go('/itinerary');
             break;
           case 4:
             GoRouter.of(context).go('/culture');

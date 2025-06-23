@@ -30,6 +30,12 @@ flutter:
     - assets/images/horses.jpg
     - assets/images/elder.jpg
     - assets/images/antelope.jpg
+    - assets/images/role.jpg
+    - assets/images/logo.png
+    - assets/images/land.jpg
+    - assets/images/food.jpg
+    - assets/images/irrecha.jpg
+    - assets/images/tourguide.jpg
 
   fonts:
     - family: IrishGrover

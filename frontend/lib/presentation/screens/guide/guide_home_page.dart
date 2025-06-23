@@ -1,4 +1,3 @@
-// lib/presentation/screens/guide/guide_home_page.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../widgets/guide_bottom_nav.dart';
@@ -10,111 +9,162 @@ class GuideHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> categories = [
       {
-        'title': 'Festivals',
-        'image': 'assets/images/festival.jpg',
+        'title': 'Ireecha Trail',
+        'image': 'assets/images/irrecha.jpg',
         'route': '/trail/festivals',
       },
       {
-        'title': 'Food & Cuisine',
-        'image': 'assets/images/coffee.jpg',
-        'route': '/trail/food',
+        'title': 'Photgraphy Trail',
+        'image': 'assets/images/land.jpg',
+        'route': '/trail/festivals',
       },
       {
-        'title': 'Nature & Eco',
-        'image': 'assets/images/nature.jpg',
-        'route': '/trail/nature',
-      },
-      {
-        'title': 'Wildlife',
-        'image': 'assets/images/wildlife.jpg',
-        'route': '/trail/wildlife',
-      },
-      {
-        'title': 'Keza',
-        'image': 'assets/images/keza.jpg',
-        'route': '/trail/keza',
+        'title': 'cuisineTrail',
+        'image': 'assets/images/food.jpg',
+        'route': '/trail/festivals',
       },
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Welcome Tour Guide'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Image.asset('assets/images/flag.png', height: 24),
-          ),
-        ],
-      ),
+      backgroundColor: Colors.white,
       bottomNavigationBar: const GuideBottomNavBar(currentIndex: 0),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          const Text(
-            'Festivals',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          _buildCategoryRow(context, categories.sublist(0, 1)),
-          const SizedBox(height: 16),
-          const Text(
-            'Foods and Cuisines',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          _buildCategoryRow(context, categories.sublist(1, 2)),
-          const SizedBox(height: 16),
-          const Text(
-            'Wildlife Preservation',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          _buildCategoryRow(context, categories.sublist(3, 4)),
-        ],
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          children: [
+            // 🔍 Search bar
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE9FFDD),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.search, color: Colors.green),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Discover places',
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // 🪧 Welcome text + logo
+            Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'Welcome to wander Oromia!',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'IrishGrover',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Image.asset(
+                  'assets/images/logo.png',
+                  height: 30,
+                  width: 30,
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 24),
+            _buildCategorySection(context, 'Festivals', categories),
+            const SizedBox(height: 24),
+            _buildCategorySection(context, 'Foods and Cuisines', categories),
+            const SizedBox(height: 24),
+            _buildCategorySection(context, 'Wildlife preservation', categories),
+            const SizedBox(height: 80),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildCategoryRow(
-    BuildContext context,
-    List<Map<String, dynamic>> items,
-  ) {
-    return Row(
-      children:
-          items.map((category) {
-            return Expanded(
-              child: GestureDetector(
-                onTap: () => context.go(category['route']),
+  Widget _buildCategorySection(BuildContext context, String title, List<Map<String, dynamic>> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'IrishGrover',
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 170,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final item = items[index];
+              return GestureDetector(
+                onTap: () => context.go(item['route']),
                 child: Container(
-                  margin: const EdgeInsets.all(4),
-                  height: 120,
+                  width: 140,
+                  margin: const EdgeInsets.only(right: 12),
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(category['image']),
-                      fit: BoxFit.cover,
-                    ),
+                    color: const Color(0xFFE4FFDD),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Container(
-                    alignment: Alignment.bottomCenter,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.black45,
-                    ),
-                    child: Text(
-                      category['title'],
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                        child: Image.asset(
+                          item['image'],
+                          width: 140,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['title'],
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                                fontFamily: 'IrishGrover',
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            const Text(
+                              'Explore',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 12,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            );
-          }).toList(),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
