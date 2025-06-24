@@ -1,6 +1,7 @@
 // tourist_home_page.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:frontend/presentation/widgets/bottom_nav.dart';
 
 class TrailData {
   final String id;
@@ -54,9 +55,11 @@ class HomePage extends StatelessWidget {
       "Foods and Cuisines",
       "Wildlife preservation",
     ];
-
-    return Scaffold(
+return Scaffold(
       appBar: AppBar(title: const Text("Wander Oromia")),
+      bottomNavigationBar: const BottomNavBar(
+        currentIndex: 0,
+      ), 
       body: ListView(
         children: [
           const Padding(
@@ -79,6 +82,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
     );
+
   }
 
   Widget _buildCategorySection(BuildContext context, String category) {

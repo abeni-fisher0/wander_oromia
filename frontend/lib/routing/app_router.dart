@@ -52,29 +52,18 @@ class AppRouter {
 
       // 🌍 Tourist Routes
       GoRoute(path: '/home', builder: (context, state) => HomePage()),
-      GoRoute(
-        path: '/trail/:trailId',
+    
+     
+
+      // 🌍 By ID (e.g., "65ae1b...abcd")
+     GoRoute(
+        path: '/trail/:title',
         builder: (context, state) {
-          final trailId = state.pathParameters['trailId']!;
-          return TrailPage(trailId: trailId);
-        },
-      ),
-      GoRoute(
-        path: '/trail/:trailId',
-        builder: (context, state) {
-          final trailId = state.pathParameters['trailId']!;
-          return TrailPage(trailId: trailId);
+          final title = state.pathParameters['title']!;
+          return TrailPage(title: title);
         },
       ),
 
-      // 🌍 By ID (e.g., "65ae1b...abcd")
-      GoRoute(
-        path: '/trail/:id',
-        builder: (context, state) {
-          final trailId = state.pathParameters['id']!;
-          return TrailPage(trailId: trailId);
-        },
-      ),
       GoRoute(
         path: '/stop/:stopName',
         builder: (context, state) {
