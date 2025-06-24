@@ -1,80 +1,111 @@
+// tourist_home_page.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:frontend/data/models/trail_model.dart';
-import 'package:frontend/data/services/trail_service.dart';
-import 'package:frontend/presentation/widgets/bottom_nav.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class TrailData {
+  final String id;
+  final String title;
+  final String imageUrl;
+  final String category;
 
-  @override
-  State<HomePage> createState() => _HomePageState();
+  TrailData(this.id, this.title, this.imageUrl, this.category);
 }
 
-class _HomePageState extends State<HomePage> {
-  final Map<String, String> displayToCategory = {
-    'Festivals': 'Festivals',
-    'Foods and Cuisines': 'Food & Cuisine',
-    'Wildlife preservation': 'Wildlife',
-  };
+class HomePage extends StatelessWidget {
+  HomePage({Key? key}) : super(key: key);
 
-  final Map<String, List<TrailModel>> categoryTrails = {};
-  bool isLoading = true;
+  final List<TrailData> allTrails = [
+    TrailData(
+      "trail001",
+      "Irreecha Festival",
+      "assets/images/festival.jpg",
+      "Festivals",
+    ),
+    TrailData(
+      "trail002",
+      "Coffee Heritage",
+      "assets/images/coffee.jpg",
+      "Foods and Cuisines",
+    ),
+    TrailData(
+      "trail004",
+      "Wildlife Discovery",
+      "assets/images/wildlife.jpg",
+      "Wildlife preservation",
+    ),
+    TrailData(
+      "trail006",
+      "Traditional Dishes",
+      "assets/images/food.jpg",
+      "Foods and Cuisines",
+    ),
+    TrailData(
+      "trail007",
+      "Historical Cities",
+      "assets/images/history.jpg",
+      "Festivals",
+    ),
+  ];
 
   @override
-  void initState() {
-    super.initState();
-    _loadTrails();
+  Widget build(BuildContext context) {
+    final categories = [
+      "Festivals",
+      "Foods and Cuisines",
+      "Wildlife preservation",
+    ];
+
+    return Scaffold(
+      appBar: AppBar(title: const Text("Wander Oromia")),
+      body: ListView(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                hintText: 'Discover places',
+                filled: true,
+                fillColor: Color(0xFFDFFFD9),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+          for (final category in categories)
+            _buildCategorySection(context, category),
+        ],
+      ),
+    );
   }
 
-  Future<void> _loadTrails() async {
-    try {
-      for (var entry in displayToCategory.entries) {
-        final trails = await TrailService.getTrailsByCategory(entry.value);
-        categoryTrails[entry.key] = trails;
-      }
-    } catch (e) {
-      print('Error loading trails: $e');
-    } finally {
-      setState(() => isLoading = false);
-    }
-  }
+  Widget _buildCategorySection(BuildContext context, String category) {
+    final filtered = allTrails.where((t) => t.category == category).toList();
 
-  void navigateToTrailCategory(BuildContext context, String category) {
-    final encoded = Uri.encodeComponent(category);
-    context.push('/trail/$encoded');
-  }
-
-  Widget buildSection(String displayName, List<TrailModel> trails) {
-    final limited = trails.take(5).toList();
+    if (filtered.isEmpty) return const SizedBox.shrink();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(displayName,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              TextButton(
-                onPressed: () => navigateToTrailCategory(context, displayName),
-                child: const Text("See all"),
-              ),
-            ],
+          child: Text(
+            category,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
         SizedBox(
           height: 180,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: limited.length,
+            itemCount: filtered.length,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             itemBuilder: (context, index) {
-              final trail = limited[index];
+              final trail = filtered[index];
               return GestureDetector(
-                onTap: () => navigateToTrailCategory(context, displayName),
+                onTap: () => context.push('/trail/${trail.id}'),
                 child: Container(
                   width: 130,
                   margin: const EdgeInsets.only(right: 12),
@@ -86,17 +117,13 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       ClipRRect(
-                        borderRadius:
-                            const BorderRadius.vertical(top: Radius.circular(12)),
-                        child: Image.network(
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(12),
+                        ),
+                        child: Image.asset(
                           trail.imageUrl,
                           height: 100,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(
-                            height: 100,
-                            color: Colors.grey.shade300,
-                            child: const Icon(Icons.image, size: 40),
-                          ),
                         ),
                       ),
                       Padding(
@@ -109,7 +136,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text('Explore', style: TextStyle(color: Colors.blue)),
+                        child: Text(
+                          'Explore',
+                          style: TextStyle(color: Colors.blue),
+                        ),
                       ),
                     ],
                   ),
@@ -119,51 +149,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final displayNames = displayToCategory.keys.toList();
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      bottomNavigationBar: const BottomNavBar(currentIndex: 0),
-      body: SafeArea(
-        child: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : ListView(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search),
-                        hintText: 'Discover places',
-                        filled: true,
-                        fillColor: Color(0xFFDFFFD9),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      'Welcome to Wander Oromia! 🇪🇹',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  for (final display in displayNames)
-                    if (categoryTrails[display]?.isNotEmpty ?? false)
-                      buildSection(display, categoryTrails[display]!),
-                  const SizedBox(height: 20),
-                ],
-              ),
-      ),
     );
   }
 }

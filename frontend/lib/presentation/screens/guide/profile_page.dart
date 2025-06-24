@@ -8,55 +8,70 @@ class GuideProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const GuideBottomNavBar(currentIndex: 4),
+      backgroundColor: Colors.white,
+      bottomNavigationBar: const GuideBottomNavBar(currentIndex: 2),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           children: [
-            const Center(
-              child: CircleAvatar(
-                radius: 60,
-                backgroundImage: AssetImage("assets/images/guide.jpg"),
-              ),
-            ),
-            const SizedBox(height: 16),
-            const Center(
-              child: Text(
-                "Lemessa Oli",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 4),
-            const Center(
-              child: Text(
-                "Oromia 🇪🇹 | Tour guide",
-                style: TextStyle(color: Colors.grey),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
-                    vertical: 12,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onPressed: () {
-                  context.push('/edit-profile');
-                },
-                child: const Text("Edit Profile"),
-              ),
-            ),
-            const SizedBox(height: 30),
-            _OptionCard(icon: Icons.bookmark_border, text: "Saved Trails"),
-            const SizedBox(height: 16),
-            _OptionCard(icon: Icons.logout, text: "Log out"),
-          ],
+  const Center(
+    child: CircleAvatar(
+      radius: 60,
+      backgroundImage: AssetImage("assets/images/tourguide.jpg"),
+    ),
+  ),
+  const SizedBox(height: 16),
+  const Center(
+    child: Text(
+      "Lemessa Oli",
+      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    ),
+  ),
+  const SizedBox(height: 4),
+  Center(
+  child: Row(
+    mainAxisSize: MainAxisSize.min,
+    children: const [
+      Text(
+        "Oromia ",
+        style: TextStyle(color: Colors.grey),
+      ),
+      Image(
+        image: AssetImage('assets/images/logo.png'),
+        height: 20, // adjust size as needed
+      ),
+      Text(
+        " Tour guide",
+        style: TextStyle(color: Colors.grey),
+      ),
+    ],
+  ),
+),
+
+  const SizedBox(height: 8),
+
+  Center(
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.green,
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+      onPressed: () {
+        context.push('/guide_edit');
+      },
+      child: const Text("Edit Profile",
+       style: TextStyle(color: Colors.white),),
+    ),
+  ),
+  const SizedBox(height: 30),
+  _OptionCard(icon: Icons.bookmark_border, text: "Saved Trails"),
+  const SizedBox(height: 16),
+  _OptionCard(icon: Icons.logout, text: "Log out"),
+],
+
         ),
       ),
     );

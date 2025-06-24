@@ -73,61 +73,134 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sign Up as ${role ?? ''}')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _fullNameController,
-              decoration: const InputDecoration(labelText: 'Full Name'),
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          // 📷 Top image
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.35,
+            width: double.infinity,
+            child: Image.asset(
+              'assets/images/trai.jpg',
+              fit: BoxFit.cover,
             ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-              keyboardType: TextInputType.emailAddress,
+          ),
+
+          // 🧾 Sign Up form
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: ListView(
+                padding: const EdgeInsets.only(top: 24),
+                children: [
+                  Center(
+                    child: Text(
+                      'Sign Up as ${role ?? ''}',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // 🧑 Full name
+                  TextField(
+                    controller: _fullNameController,
+                    decoration: _inputDecoration("FULL NAME"),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 📧 Email
+                  TextField(
+                    controller: _emailController,
+                    decoration: _inputDecoration("EMAIL"),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 🔒 Password
+                  TextField(
+                    controller: _passwordController,
+                    decoration: _inputDecoration("PASSWORD"),
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 📞 Phone
+                  TextField(
+                    controller: _phoneController,
+                    decoration: _inputDecoration("PHONE NUMBER"),
+                    keyboardType: TextInputType.phone,
+                  ),
+                  const SizedBox(height: 24),
+
+                  // 🟩 Sign Up button
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: isLoading ? null : _handleSignUp,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: isLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Text(
+                              'Sign Up',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // 🔁 Login redirect
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Already have an account?"),
+                      TextButton(
+                        onPressed: () {
+                          GoRouter.of(context).go('/login');
+                        },
+                        child: const Text("Login"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _phoneController,
-              decoration: const InputDecoration(labelText: 'Phone Number'),
-              keyboardType: TextInputType.phone,
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: isLoading ? null : _handleSignUp,
-              child:
-                  isLoading
-                      ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                      : const Text('Sign Up'),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Already have an account?"),
-                TextButton(
-                  onPressed: () {
-                    GoRouter.of(context).go('/login');
-                  },
-                  child: const Text("Login"),
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  InputDecoration _inputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Colors.green),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Colors.green),
       ),
     );
   }

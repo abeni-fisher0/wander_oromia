@@ -29,13 +29,15 @@ class _TouristProfilePageState extends State<TouristProfilePage> {
     });
   }
 
-  void _navigateToEditProfile(BuildContext context) {
-    if (user != null) {
-      context.push('/edit-tourist-profile', extra: user);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("User data not loaded")),
-      );
+  void _navigateToEditProfile(BuildContext context) async {
+    if (user == null) return;
+
+    final updatedUser = await context.push(
+      '/edit-tourist-profile',
+      extra: user,
+    );
+    if (updatedUser is AppUser) {
+      setState(() => user = updatedUser);
     }
   }
 
@@ -45,82 +47,60 @@ class _TouristProfilePageState extends State<TouristProfilePage> {
       backgroundColor: Colors.white,
       bottomNavigationBar: const BottomNavBar(currentIndex: 3),
       body: SafeArea(
-        child: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : Column(
-                children: [
-                  const SizedBox(height: 32),
-                  Center(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
+        child:
+            isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : Column(
+                  children: [
+                    const SizedBox(height: 32),
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundImage: NetworkImage(
                         user?.avatarUrl ??
-                            'https://api.dicebear.com/7.x/initials/svg?seed=${user?.fullName ?? "Tourist"}',
-                        width: 120,
-                        height: 120,
-                        fit: BoxFit.cover,
+                            'https://api.dicebear.com/7.x/initials/svg?seed=${Uri.encodeComponent(user?.fullName ?? "Tourist")}',
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    user?.fullName ?? 'Tourist',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('${user?.phone ?? 'No phone'} 📞', style: const TextStyle(fontSize: 16)),
-                      const SizedBox(width: 8),
-                      Text('| ${user?.role ?? 'Tourist'}', style: const TextStyle(fontSize: 16)),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () => _navigateToEditProfile(context),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green[700],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
+                    const SizedBox(height: 16),
+                    Text(
+                      user?.fullName ?? 'Tourist',
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                     ),
-                    child: const Text('Edit Profile'),
-                  ),
-                  const SizedBox(height: 32),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFE9FFE0),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: ListTile(
-                            leading: const Icon(Icons.bookmark_border, color: Colors.green),
-                            title: const Text('Saved Trails'),
-                            onTap: () => context.go('/saved'),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFE9FFE0),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: ListTile(
-                            leading: const Icon(Icons.logout, color: Colors.green),
-                            title: const Text('Log out'),
-                            onTap: () => context.go('/login'),
-                          ),
-                        ),
-                      ],
+                    const SizedBox(height: 4),
+                    Text(
+                      '${user?.phone ?? 'No phone'} | ${user?.role ?? 'Tourist'}',
+                      style: const TextStyle(fontSize: 16),
                     ),
-                  ),
-                ],
-              ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => _navigateToEditProfile(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green[700],
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                      child: const Text('Edit Profile'),
+                    ),
+                    const SizedBox(height: 32),
+                    ListTile(
+                      leading: const Icon(Icons.bookmark_border),
+                      title: const Text('Saved Trails'),
+                      onTap: () => context.go('/saved'),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.logout),
+                      title: const Text('Log out'),
+                      onTap: () => context.go('/login'),
+                    ),
+                  ],
+                ),
       ),
     );
   }

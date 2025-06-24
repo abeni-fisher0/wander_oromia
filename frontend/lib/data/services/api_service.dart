@@ -3,11 +3,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:io';
 
-const String baseUrl = 'http://192.168.1.7:5000/api';
+const String baseUrl = 'http://192.168.173.145:5000/api';
 
 class ApiService {
   // Existing methods...
-  static Future<http.Response> put(String endpoint, dynamic body, {bool auth = false}) async {
+  static Future<http.Response> put(
+    String endpoint,
+    dynamic body, {
+    bool auth = false,
+  }) async {
     final token = auth ? await _getToken() : null;
     return http.put(
       Uri.parse('$baseUrl$endpoint'),
@@ -30,7 +34,11 @@ class ApiService {
     );
   }
 
-  static Future<http.Response> post(String endpoint, dynamic body, {bool auth = false}) async {
+  static Future<http.Response> post(
+    String endpoint,
+    dynamic body, {
+    bool auth = false,
+  }) async {
     final token = auth ? await _getToken() : null;
     return http.post(
       Uri.parse('$baseUrl$endpoint'),
@@ -50,21 +58,13 @@ class ApiService {
     String fileFieldName = 'file',
   }) async {
     final token = auth ? await _getToken() : null;
-    
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse('$baseUrl$endpoint'),
-    );
 
-    request.headers.addAll({
-      if (auth) 'Authorization': 'Bearer $token',
-    });
+    var request = http.MultipartRequest('POST', Uri.parse('$baseUrl$endpoint'));
+
+    request.headers.addAll({if (auth) 'Authorization': 'Bearer $token'});
 
     request.files.add(
-      await http.MultipartFile.fromPath(
-        fileFieldName,
-        file.path,
-      ),
+      await http.MultipartFile.fromPath(fileFieldName, file.path),
     );
 
     var response = await http.Response.fromStream(await request.send());

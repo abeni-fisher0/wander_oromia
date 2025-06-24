@@ -36,24 +36,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Text("Edit Profile"),
+                  child: const Text(
+                    "Edit Profile",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            Stack(
-              alignment: Alignment.bottomRight,
-              children: const [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage("assets/images/guide.jpg"),
-                ),
-                CircleAvatar(
-                  radius: 16,
-                  backgroundColor: Colors.green,
-                  child: Icon(Icons.camera_alt, size: 16, color: Colors.white),
-                ),
-              ],
+            const Center(
+              child: CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage("assets/images/tourguide.jpg"),
+              ),
             ),
             const SizedBox(height: 32),
             _buildInput(label: "Name", controller: nameController),
@@ -67,7 +62,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                // TODO: connect to backend save function
+                // Navigate to profile page
+                Navigator.pushReplacementNamed(context, '/profile');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
@@ -78,7 +74,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 elevation: 4,
                 shadowColor: Colors.black26,
               ),
-              child: const Text("Save changes", style: TextStyle(fontSize: 16)),
+              child: const Text(
+                "Save changes",
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
             ),
           ],
         ),

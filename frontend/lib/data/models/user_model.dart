@@ -22,13 +22,13 @@ class AppUser {
   factory AppUser.fromJson(String uid, Map<String, dynamic> json) {
     return AppUser(
       uid: uid,
-      fullName: json['name'] ?? json['fullName'],
+      fullName: json['fullName'], // <-- not 'name'
       email: json['email'],
       phone: json['phone'],
-      avatarUrl: json['avatarUrl'],
       role: json['role'] ?? 'tourist',
       savedTrails: List<String>.from(json['savedTrails'] ?? []),
       itinerary: List<Map<String, dynamic>>.from(json['itinerary'] ?? []),
+      avatarUrl: json['avatarUrl'],
     );
   }
-}
+  }

@@ -6,7 +6,13 @@ const trailSchema = new mongoose.Schema(
     title: { type: String, required: true },
     category: {
       type: String,
-      enum: ["Festivals", "Food & Cuisine", "Nature & Eco", "Wildlife"],
+      enum: [
+        "Festivals",
+        "Food & Cuisine",
+        "Nature & Eco",
+        "Wildlife",
+        "Culture",
+      ],
       required: true,
     },
     description: { type: String },

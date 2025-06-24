@@ -51,12 +51,28 @@ class AppRouter {
       GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
 
       // 🌍 Tourist Routes
-      GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+      GoRoute(path: '/home', builder: (context, state) => HomePage()),
       GoRoute(
-        path: '/trail/:category',
+        path: '/trail/:trailId',
         builder: (context, state) {
-          final category = state.pathParameters['category']!;
-          return TrailPage(title: category);
+          final trailId = state.pathParameters['trailId']!;
+          return TrailPage(trailId: trailId);
+        },
+      ),
+      GoRoute(
+        path: '/trail/:trailId',
+        builder: (context, state) {
+          final trailId = state.pathParameters['trailId']!;
+          return TrailPage(trailId: trailId);
+        },
+      ),
+
+      // 🌍 By ID (e.g., "65ae1b...abcd")
+      GoRoute(
+        path: '/trail/:id',
+        builder: (context, state) {
+          final trailId = state.pathParameters['id']!;
+          return TrailPage(trailId: trailId);
         },
       ),
       GoRoute(
@@ -110,20 +126,19 @@ class AppRouter {
         builder: (context, state) => const GuideHomePage(),
       ),
       GoRoute(
-        path: '/guidetrail/:title',
+        path: '/guidetrail/:trailId',
         builder: (context, state) {
-          final title = state.pathParameters['title']!;
+          final trailId = state.pathParameters['trailId']!;
+          final title = getTrailTitle(trailId);
           return GuideTrailPage(title: title);
         },
       ),
+
       GoRoute(
         path: '/upload',
         builder: (context, state) => const UploadInfoPage(),
       ),
-      GoRoute(
-        path: '/guidesaved',
-        builder: (context, state) => const guide.SavedTrailsPage(),
-      ),
+
       GoRoute(
         path: '/guideprofile',
         builder: (context, state) => const GuideProfilePage(),
@@ -134,4 +149,25 @@ class AppRouter {
       ),
     ],
   );
+}
+
+String getTrailTitle(String trailId) {
+  switch (trailId) {
+    case 'trail001':
+      return 'Irreecha Festival Trail';
+    case 'trail002':
+      return 'Coffee Heritage Trail';
+    case 'trail003':
+      return 'Bale Mountains Eco Trail';
+    case 'trail004':
+      return 'Wildlife Discovery Trail';
+    case 'trail005':
+      return 'Sof Omar Cave Trail';
+    case 'trail006':
+      return 'Traditional Oromo Dishes Trail';
+    case 'trail007':
+      return 'Historical Cities Trail';
+    default:
+      return 'Unknown Trail';
+  }
 }

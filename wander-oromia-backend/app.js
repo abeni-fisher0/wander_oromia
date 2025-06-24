@@ -3,6 +3,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const path = require("path");
 
 dotenv.config();
 connectDB();
@@ -16,6 +17,7 @@ app.use(express.json());
 // Route files
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/trails", require("./routes/trailRoutes"));
 app.use("/api/stops", require("./routes/stopRoutes"));

@@ -24,7 +24,9 @@ exports.getTrailsByCategory = async (req, res) => {
   try {
     const trails = await Trail.find({ category }).populate("stops");
     if (!trails.length) {
-      return res.status(404).json({ message: "No trails found for this category." });
+      return res
+        .status(404)
+        .json({ message: "No trails found for this category." });
     }
     res.json(trails);
   } catch (err) {
@@ -54,5 +56,16 @@ exports.searchTrails = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Trail search failed" });
+  }
+};
+
+// trailController.js
+exports.getTrailById = async (req, res) => {
+  try {
+    const trail = await Trail.findById(req.params.id).populate("stops");
+    if (!trail) return res.status(404).json({ error: "Trail not found" });
+    res.json(trail);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch trail" });
   }
 };

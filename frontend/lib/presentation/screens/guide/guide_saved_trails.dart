@@ -1,42 +1,89 @@
-// ✅ Saved Trails Page (same as tourist)
 import 'package:flutter/material.dart';
-import '../../widgets/bottom_nav.dart';
+import 'package:frontend/presentation/widgets/guide_bottom_nav.dart';
+import 'package:go_router/go_router.dart';
 
-class SavedTrailsPage extends StatelessWidget {
-  const SavedTrailsPage({super.key});
+
+class GuideSavedTrailsPage extends StatelessWidget {
+  const GuideSavedTrailsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, String>> savedTrails = [
+      {'title': 'Irrecha', 'category': 'festival'},
+      {'title': 'Coffee Trail', 'category': 'foods and cuisine'},
+      {'title': 'Bale Mountain', 'category': 'wildlife conservation'},
+      {'title': 'Sof Omer Cave', 'category': 'lakes and craters'},
+    ];
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Saved Trails')),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 2),
-      body: ListView(
-        padding: const EdgeInsets.all(8),
-        children: const [
-          _SavedTrailCard("Irreecha", "festival"),
-          _SavedTrailCard("Coffee Trail", "foods and cuisine"),
-          _SavedTrailCard("Bale mountain", "wildlife conservation"),
-          _SavedTrailCard("Sof omar cave", "lakes and craters"),
+      appBar: AppBar(
+        title: const Text('Saved Trails'),
+        backgroundColor: Colors.green,
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: Image(
+              image: AssetImage('assets/images/logo.png'),
+              height: 24,
+              width: 24,
+            ),
+          ),
         ],
       ),
-    );
-  }
-}
-
-class _SavedTrailCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-
-  const _SavedTrailCard(this.title, this.subtitle, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        leading: Container(width: 50, height: 50, color: Colors.grey),
-        title: Text(title),
-        subtitle: Text(subtitle),
-        onTap: () {},
+      bottomNavigationBar: const GuideBottomNavBar(currentIndex: 2),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: savedTrails.length,
+        itemBuilder: (context, index) {
+          final trail = savedTrails[index];
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.all(26),
+            decoration: BoxDecoration(
+              color: const Color(0xFFDFFFD9),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: InkWell(
+              onTap: () => context.push('/itinerary'),
+              child: Row(
+                children: [
+                  // 📷 Image placeholder (Figma-style grey rounded box)
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade400,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.image, color: Colors.white70),
+                  ),
+                  const SizedBox(width: 12),
+                  // 🖋️ Title and category
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        trail['title'] ?? '',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        trail['category'] ?? '',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

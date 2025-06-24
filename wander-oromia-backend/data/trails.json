@@ -1,0 +1,177 @@
+[
+  {
+    "id": "trail001",
+    "title": "Irreecha Festival Trail",
+    "category": "Festivals",
+    "description": "Experience the spiritual and cultural celebration of the Oromo people.",
+    "imageUrl": "/images/irreecha.jpg",
+    "stops": [
+      {
+        "name": "Hora Arsadi",
+        "description": "Main Irreecha celebration site in Bishoftu.",
+        "images": ["/images/hora_arsadi1.jpg"],
+        "videos": ["/videos/hora_arsadi.mp4"],
+        "location": { "lat": 8.7441, "lng": 39.0085 },
+        "trailId": "trail001"
+      },
+      {
+        "name": "Hora Finfinne",
+        "description": "Urban Irreecha festivities in Addis Ababa.",
+        "images": ["/images/hora_finfinne.jpg"],
+        "videos": [],
+        "location": { "lat": 9.0301, "lng": 38.7491 },
+        "trailId": "trail001"
+      }
+    ]
+  },
+  {
+    "id": "trail002",
+    "title": "Coffee Heritage Trail",
+    "category": "Food & Cuisine",
+    "description": "Trace the origin and legacy of coffee in its birthplace, Oromia.",
+    "imageUrl": "/images/coffee.jpg",
+    "stops": [
+      {
+        "name": "Kaffa Forest",
+        "description": "The birthplace of Arabica coffee.",
+        "images": ["/images/kaffa_forest.jpg"],
+        "videos": [],
+        "location": { "lat": 7.25, "lng": 36.25 },
+        "trailId": "trail002"
+      },
+      {
+        "name": "Jimma Coffee Museum",
+        "description": "Discover the coffee culture of Jimma.",
+        "images": ["/images/jimma_museum.jpg"],
+        "videos": [],
+        "location": { "lat": 7.6732, "lng": 36.835 },
+        "trailId": "trail002"
+      }
+    ]
+  },
+  {
+    "id": "trail003",
+    "title": "Bale Mountains Eco Trail",
+    "category": "Nature & Eco",
+    "description": "Explore Afroalpine landscapes and rare wildlife.",
+    "imageUrl": "/images/bale.jpg",
+    "stops": [
+      {
+        "name": "Sanetti Plateau",
+        "description": "Home of the Ethiopian wolf.",
+        "images": [],
+        "videos": [],
+        "location": { "lat": 6.7984, "lng": 39.7701 },
+        "trailId": "trail003"
+      },
+      {
+        "name": "Harenna Forest",
+        "description": "Cloud forest with unique biodiversity.",
+        "images": [],
+        "videos": [],
+        "location": { "lat": 6.4, "lng": 39.7 },
+        "trailId": "trail003"
+      }
+    ]
+  },
+  {
+    "id": "trail004",
+    "title": "Wildlife Discovery Trail",
+    "category": "Wildlife",
+    "description": "Meet the endemic and exotic wildlife of Oromia.",
+    "imageUrl": "/images/wildlife.jpg",
+    "stops": [
+      {
+        "name": "Awash National Park",
+        "description": "See oryx, crocodiles, and hot springs.",
+        "images": [],
+        "videos": [],
+        "location": { "lat": 8.91, "lng": 40.02 },
+        "trailId": "trail004"
+      },
+      {
+        "name": "Babile Elephant Sanctuary",
+        "description": "Habitat for endangered elephants.",
+        "images": [],
+        "videos": [],
+        "location": { "lat": 9.15, "lng": 42.3 },
+        "trailId": "trail004"
+      }
+    ]
+  },
+  {
+    "id": "trail005",
+    "title": "Sof Omar Cave Trail",
+    "category": "Nature & Eco",
+    "description": "Journey through Ethiopia’s longest cave system.",
+    "imageUrl": "/images/sof_omar.jpg",
+    "stops": [
+      {
+        "name": "Cave Entrance",
+        "description": "Gateway to underground wonders.",
+        "images": [],
+        "videos": [],
+        "location": { "lat": 6.9, "lng": 40.75 },
+        "trailId": "trail005"
+      },
+      {
+        "name": "Ayiew Macaan",
+        "description": "Stunning limestone chambers.",
+        "images": [],
+        "videos": [],
+        "location": { "lat": 6.905, "lng": 40.755 },
+        "trailId": "trail005"
+      }
+    ]
+  },
+  {
+    "id": "trail006",
+    "title": "Traditional Oromo Dishes Trail",
+    "category": "Food & Cuisine",
+    "description": "Taste the variety of Oromo foods from different regions.",
+    "imageUrl": "/images/food.jpg",
+    "stops": [
+      {
+        "name": "Jimma Kitfo",
+        "description": "Spicy raw beef dish in Jimma.",
+        "images": ["/images/jimma_kitfo.jpg"],
+        "videos": [],
+        "location": { "lat": 7.6732, "lng": 36.835 },
+        "trailId": "trail006"
+      },
+      {
+        "name": "Robe Chechebsa",
+        "description": "Fried flatbread with spice and butter.",
+        "images": [],
+        "videos": [],
+        "location": { "lat": 7.127, "lng": 40.0 },
+        "trailId": "trail006"
+      }
+    ]
+  },
+  {
+    "id": "trail007",
+    "title": "Historical Cities Trail",
+    "category": "Culture",
+    "description": "Visit key cities tied to Oromo history and heritage.",
+    "imageUrl": "/images/history.jpg",
+    "stops": [
+      {
+        "name": "Harar Jugol",
+        "description": "UNESCO heritage site and Islamic learning center.",
+        "images": [],
+        "videos": [],
+        "location": { "lat": 9.31, "lng": 42.13 },
+        "trailId": "trail007"
+      },
+      {
+        "name": "Dire Dawa",
+        "description": "Historic rail town with rich culture.",
+        "images": [],
+        "videos": [],
+        "location": { "lat": 9.6, "lng": 41.85 },
+        "trailId": "trail007"
+      }
+    ]
+  }
+]

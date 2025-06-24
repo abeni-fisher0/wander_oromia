@@ -49,7 +49,7 @@ class _UploadInfoPageState extends State<UploadInfoPage> {
             ),
             const SizedBox(height: 24),
             Stack(
-              alignment: Alignment.bottomRight,
+              alignment: Alignment.center,
               children: const [
                 ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -59,11 +59,6 @@ class _UploadInfoPageState extends State<UploadInfoPage> {
                     height: 120,
                     fit: BoxFit.cover,
                   ),
-                ),
-                CircleAvatar(
-                  radius: 16,
-                  backgroundColor: Colors.green,
-                  child: Icon(Icons.camera_alt, size: 16, color: Colors.white),
                 ),
               ],
             ),

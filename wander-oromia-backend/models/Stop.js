@@ -3,11 +3,6 @@ const mongoose = require("mongoose");
 
 const stopSchema = new mongoose.Schema(
   {
-    trailId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Trail",
-      required: true,
-    },
     name: { type: String, required: true },
     description: String,
     images: [String],

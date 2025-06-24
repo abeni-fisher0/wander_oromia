@@ -31,15 +31,14 @@ class _LoginPageState extends State<LoginPage> {
           return;
         }
 
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text("✅ Login successful!")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("✅ Login successful!")),
+        );
 
-        // ✅ Role-based navigation
         if (user.role == "tourist") {
           context.go("/home");
         } else if (user.role == "guide") {
-          context.go("/guide-home");
+          context.go("/guidehome");
         } else {
           _showError("Unknown role: ${user.role}");
         }
@@ -54,43 +53,118 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _showError(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-              keyboardType: TextInputType.emailAddress,
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          // 📷 Top image
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.35,
+            width: double.infinity,
+            child: Image.asset(
+              'assets/images/login.jpg',
+              fit: BoxFit.cover,
             ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
+          ),
+
+          // 🧾 Login content
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: ListView(
+                padding: const EdgeInsets.only(top: 24),
+                children: [
+                  const Center(
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // 📧 Email
+                  TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'EMAIL ADDRESS',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.green),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.green),
+                      ),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // 🔒 Password
+                  TextField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      labelText: 'PASSWORD',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.green),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.green),
+                      ),
+                    ),
+                    obscureText: true,
+                  ),
+                  const SizedBox(height: 24),
+
+                  // ✅ Login button
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: isLoading ? null : _handleLogin,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: isLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Text(
+                              'Login',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: isLoading ? null : _handleLogin,
-              child:
-                  isLoading
-                      ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                      : const Text('Login'),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

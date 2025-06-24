@@ -1,160 +1,168 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../widgets/guide_bottom_nav.dart';
+import 'package:frontend/presentation/widgets/guide_bottom_nav.dart';
 
 class GuideHomePage extends StatelessWidget {
-  const GuideHomePage({Key? key}) : super(key: key);
+  const GuideHomePage({super.key});
+
+  final List<Map<String, dynamic>> trails = const [
+    {
+      "id": "trail001",
+      "title": "Irreecha Festival Trail",
+      "category": "Festivals",
+      "imageUrl": "https://via.placeholder.com/150/irreecha",
+    },
+    {
+      "id": "trail002",
+      "title": "Coffee Heritage Trail",
+      "category": "Food & Cuisine",
+      "imageUrl": "https://via.placeholder.com/150/coffee",
+    },
+    {
+      "id": "trail003",
+      "title": "Bale Mountains Eco Trail",
+      "category": "Nature & Eco",
+      "imageUrl": "https://via.placeholder.com/150/bale",
+    },
+    {
+      "id": "trail004",
+      "title": "Wildlife Discovery Trail",
+      "category": "Wildlife",
+      "imageUrl": "https://via.placeholder.com/150/wildlife",
+    },
+    {
+      "id": "trail005",
+      "title": "Sof Omar Cave Trail",
+      "category": "Nature & Eco",
+      "imageUrl": "https://via.placeholder.com/150/sof_omar",
+    },
+    {
+      "id": "trail006",
+      "title": "Traditional Oromo Dishes Trail",
+      "category": "Food & Cuisine",
+      "imageUrl": "https://via.placeholder.com/150/food",
+    },
+    {
+      "id": "trail007",
+      "title": "Historical Cities Trail",
+      "category": "Culture",
+      "imageUrl": "https://via.placeholder.com/150/history",
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> categories = [
-      {
-        'title': 'Ireecha Trail',
-        'image': 'assets/images/irrecha.jpg',
-        'route': '/trail/festivals',
-      },
-      {
-        'title': 'Photgraphy Trail',
-        'image': 'assets/images/land.jpg',
-        'route': '/trail/festivals',
-      },
-      {
-        'title': 'cuisineTrail',
-        'image': 'assets/images/food.jpg',
-        'route': '/trail/festivals',
-      },
-    ];
-
     return Scaffold(
-      backgroundColor: Colors.white,
       bottomNavigationBar: const GuideBottomNavBar(currentIndex: 0),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           children: [
-            // 🔍 Search bar
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                color: const Color(0xFFE9FFDD),
-                borderRadius: BorderRadius.circular(20),
+            const Padding(
+              padding: EdgeInsets.all(16),
+              child: TextField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.search),
+                  hintText: 'Discover places',
+                  filled: true,
+                  fillColor: Color(0xFFDFFFD9),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
               ),
-              child: const Row(
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
                 children: [
-                  Icon(Icons.search, color: Colors.green),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Discover places',
-                        border: InputBorder.none,
-                      ),
-                    ),
+                  Text(
+                    'Welcome to Wander Oromia!',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
-
-            // 🪧 Welcome text + logo
-            Row(
-              children: [
-                const Expanded(
-                  child: Text(
-                    'Welcome to wander Oromia!',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'IrishGrover',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Image.asset(
-                  'assets/images/logo.png',
-                  height: 30,
-                  width: 30,
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 24),
-            _buildCategorySection(context, 'Festivals', categories),
-            const SizedBox(height: 24),
-            _buildCategorySection(context, 'Foods and Cuisines', categories),
-            const SizedBox(height: 24),
-            _buildCategorySection(context, 'Wildlife preservation', categories),
-            const SizedBox(height: 80),
+            _buildCategorySection("Festivals", context),
+            _buildCategorySection("Food & Cuisine", context),
+            _buildCategorySection("Nature & Eco", context),
+            _buildCategorySection("Wildlife", context),
+            _buildCategorySection("Culture", context),
+            const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCategorySection(BuildContext context, String title, List<Map<String, dynamic>> items) {
+  Widget _buildCategorySection(String category, BuildContext context) {
+    final filtered = trails.where((t) => t["category"] == category).toList();
+    if (filtered.isEmpty) return const SizedBox.shrink();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'IrishGrover',
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Text(
+            category,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
-        const SizedBox(height: 12),
         SizedBox(
-          height: 170,
+          height: 180,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: items.length,
+            itemCount: filtered.length,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             itemBuilder: (context, index) {
-              final item = items[index];
+              final trail = filtered[index];
               return GestureDetector(
-                onTap: () => context.go(item['route']),
+                onTap: () => context.push("/guidetrail/${trail["id"]}"),
                 child: Container(
-                  width: 140,
+                  width: 130,
                   margin: const EdgeInsets.only(right: 12),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFE4FFDD),
+                    color: Colors.green.shade50,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       ClipRRect(
-                        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                        child: Image.asset(
-                          item['image'],
-                          width: 140,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(12),
+                        ),
+                        child: Image.network(
+                          trail["imageUrl"],
                           height: 100,
                           fit: BoxFit.cover,
+                          errorBuilder:
+                              (_, __, ___) => Container(
+                                height: 100,
+                                color: Colors.grey.shade300,
+                                child: const Icon(Icons.image, size: 40),
+                              ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item['title'],
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                                fontFamily: 'IrishGrover',
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              'Explore',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 12,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ],
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          trail["title"],
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          'Explore',
+                          style: TextStyle(color: Colors.blue),
                         ),
                       ),
                     ],
