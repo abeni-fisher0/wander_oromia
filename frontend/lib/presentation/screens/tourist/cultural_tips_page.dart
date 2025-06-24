@@ -13,7 +13,7 @@ class CulturalTipsPage extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
-            child: Image.asset('assets/images/flag.png', height: 24),
+            child: Image.asset('assets/images/logo.png', height: 24),
           ),
         ],
       ),
