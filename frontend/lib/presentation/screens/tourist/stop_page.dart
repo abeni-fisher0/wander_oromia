@@ -1,88 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:frontend/data/models/stop_model.dart';
+import 'package:frontend/data/services/stop_service.dart';
 import '../../widgets/bottom_nav.dart';
 
-class StopPage extends StatelessWidget {
+class StopPage extends StatefulWidget {
   final String stopName;
   const StopPage({super.key, required this.stopName});
 
   @override
+  State<StopPage> createState() => _StopPageState();
+}
+
+class _StopPageState extends State<StopPage> {
+  StopModel? stop;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStop();
+  }
+
+  Future<void> _loadStop() async {
+    try {
+      final result = await StopService.getStopByName(widget.stopName);
+      setState(() {
+        stop = result;
+      });
+    } catch (e) {
+      print('❌ Failed to load stop: $e');
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.green, title: Text(stopName)),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 1),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 📷 Image banner
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.network(
-                'https://upload.wikimedia.org/wikipedia/commons/9/9d/Bonga%2C_Kaffa.jpg', // Placeholder for Jimma
-                height: 180,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // 📄 Description
-            const Text(
-              'Jimma, located in the Oromia Region of Ethiopia, is a vibrant and historically rich city that offers a unique blend of cultural heritage, natural beauty, and coffee tourism—making it a compelling yet underrated tourist destination.',
-              style: TextStyle(fontSize: 16, height: 1.5),
-            ),
-
-            const SizedBox(height: 24),
-
-            // ☕ Coffee Section
-            Row(
-              children: const [
-                Icon(Icons.local_cafe, color: Colors.brown),
-                SizedBox(width: 8),
-                Text(
-                  'Coffee Origin & Culture',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              '• Visit traditional coffee farms and participate in coffee ceremonies.',
-            ),
-            const Text(
-              '• Explore the Jimma Research Center, a hub for coffee innovation.',
-            ),
-            const Text(
-              '• Visit Bonga Forest and the Kaffa Biosphere Reserve, believed to be the natural home of wild coffee.',
-            ),
-
-            const SizedBox(height: 24),
-
-            // 📍 How to get there
-            Row(
-              children: const [
-                Icon(Icons.location_on, color: Colors.red),
-                SizedBox(width: 8),
-                Text(
-                  'How to Get There',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              '• By Air: Jimma Airport (JIM) has domestic flights from Addis Ababa.',
-            ),
-            const Text(
-              '• By Road: ~350 km southwest of Addis Ababa (6–8 hours by car).',
-            ),
-
-            const SizedBox(height: 40),
-          ],
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text(widget.stopName),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go('/home'); // or your default fallback page
+            }
+          },
         ),
       ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 1),
+      body:
+          isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : stop == null
+              ? const Center(child: Text('❌ Stop not found'))
+              : SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child:
+                          stop!.images.isNotEmpty
+                              ? Image.network(
+                                stop!.images.first,
+                                height: 200,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              )
+                              : Container(
+                                height: 200,
+                                color: Colors.grey.shade300,
+                                child: const Icon(Icons.image, size: 80),
+                              ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      stop!.description,
+                      style: const TextStyle(fontSize: 16, height: 1.5),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      '📍 Location',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      (stop!.lat != null && stop!.lng != null)
+                          ? 'Lat: ${stop!.lat}, Lng: ${stop!.lng}'
+                          : 'Location not available',
+                    ),
+                  ],
+                ),
+              ),
     );
   }
 }

@@ -6,8 +6,7 @@ const auth = require("../middleware/auth");
 // Public: all users can view trails
 router.get("/", getAllTrails);
 
-// Private: only logged-in users can create
-router.post("/", auth, createTrail);
+
 router.get("/category/:category", getTrailsByCategory); 
 router.get("/search", searchTrails);
 

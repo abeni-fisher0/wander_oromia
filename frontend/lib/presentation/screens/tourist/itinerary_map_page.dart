@@ -1,175 +1,357 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:frontend/presentation/widgets/bottom_nav.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:frontend/data/models/itinerary_model.dart';
+import 'package:frontend/data/models/stop_model.dart';
+import 'package:frontend/data/models/guide_model.dart';
+import 'package:frontend/data/services/stop_service.dart';
 import 'package:frontend/data/services/itinerary_service.dart';
-import '../../widgets/bottom_nav.dart';
+import 'package:frontend/data/services/guide_service.dart';
+import 'package:frontend/data/services/booking_service.dart';
+import 'package:frontend/data/models/booking_model.dart';
+import 'package:frontend/core/utils/token_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:go_router/go_router.dart';
 
 class ItineraryMapPage extends StatefulWidget {
-  const ItineraryMapPage({super.key});
+  final String trailId;
+  final String trailTitle;
+
+  const ItineraryMapPage({
+    super.key,
+    required this.trailId,
+    required this.trailTitle,
+  });
 
   @override
   State<ItineraryMapPage> createState() => _ItineraryMapPageState();
 }
 
 class _ItineraryMapPageState extends State<ItineraryMapPage> {
-  List<ItineraryModel> itineraries = [];
-  bool isLoading = true;
+  List<StopModel> selectedStops = [];
+  List<GuideModel> guides = [];
+  GuideModel? selectedGuide;
 
-  List<Marker> _markers = [];
-  LatLng _mapCenter = const LatLng(7.6736, 36.8350); // default fallback
+  DateTime? startDate;
+  int numDays = 5;
+  List<String> interests = [];
+
+  final List<String> availableInterests = [
+    'Coffee',
+    'Nature',
+    'Culture',
+    'Hiking',
+    'Food',
+  ];
+
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _loadItineraries();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _askUserPreferences();
+    });
   }
 
-  Future<void> _loadItineraries() async {
-    try {
-      final result = await ItineraryService.getItineraries();
-      setState(() {
-        itineraries = result;
-        _markers = _generateMarkers(result);
+  Future<void> _askUserPreferences() async {
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now().add(const Duration(days: 1)),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+    if (pickedDate == null) return;
+    setState(() => startDate = pickedDate);
 
-        if (_markers.isNotEmpty) {
-          _mapCenter = _markers.first.point;
-        }
+    await showDialog(
+      context: context,
+      builder: (context) {
+        final controller = TextEditingController(text: numDays.toString());
+        return AlertDialog(
+          title: const Text('Trip Duration'),
+          content: TextField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(labelText: 'Number of days'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                final input = int.tryParse(controller.text);
+                if (input != null && input > 0) {
+                  setState(() => numDays = input);
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Next'),
+            ),
+          ],
+        );
+      },
+    );
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        final selected = <String>{};
+        return StatefulBuilder(
+          builder: (context, setLocalState) {
+            return AlertDialog(
+              title: const Text('Select Interests'),
+              content: Wrap(
+                spacing: 10,
+                children: availableInterests.map((interest) {
+                  final isSelected = selected.contains(interest);
+                  return FilterChip(
+                    label: Text(interest),
+                    selected: isSelected,
+                    onSelected: (val) {
+                      setLocalState(() {
+                        isSelected ? selected.remove(interest) : selected.add(interest);
+                      });
+                    },
+                  );
+                }).toList(),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    setState(() => interests = selected.toList());
+                    Navigator.pop(context);
+                    _loadStops();
+                  },
+                  child: const Text('Done'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _loadStops() async {
+    try {
+      final stops = await StopService.getAllStops();
+      setState(() {
+        selectedStops = stops
+            .where((s) => s.trailId == widget.trailId)
+            .take(numDays)
+            .toList();
+        isLoading = false;
       });
+
+      final token = await TokenStorage.getToken();
+      if (token != null) {
+        final decoded = JwtDecoder.decode(token);
+        final uid = decoded['uid'];
+
+        await ItineraryService.createItinerary({
+          'userId': uid,
+          'trailId': widget.trailId,
+          'startDate': startDate?.toIso8601String(),
+          'preferences': interests,
+          'stops': selectedStops.asMap().entries.map((e) {
+            return {'stopId': e.value.id, 'day': e.key + 1};
+          }).toList(),
+        });
+      }
     } catch (e) {
-      print('Failed to load itineraries: $e');
-    } finally {
+      print('❌ Failed to load stops: $e');
       setState(() => isLoading = false);
     }
   }
 
-  List<Marker> _generateMarkers(List<ItineraryModel> data) {
-    final markers = <Marker>[];
-    for (final itinerary in data) {
-      for (final stop in itinerary.stops) {
-        if (stop.stop.lat != null && stop.stop.lng != null) {
-          markers.add(
-            Marker(
-              width: 40,
-              height: 40,
-              point: LatLng(stop.stop.lat!, stop.stop.lng!),
-              child: const Icon(
-                Icons.location_pin,
-                color: Colors.red,
-                size: 36,
-              ),
-            ),
-          );
-        }
-      }
-    }
-    return markers;
-  }
+  Future<void> _showGuideSelector() async {
+    try {
+      final fetched = await GuideService.getGuidesByTrail(widget.trailId);
+      setState(() => guides = fetched);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Itinerary and Map'),
-        backgroundColor: Colors.green,
-      ),
-      bottomNavigationBar: const BottomNavBar(currentIndex: 3),
-      body:
-          isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  SizedBox(
-                    height: 300,
-                    child: FlutterMap(
-                      options: MapOptions(center: _mapCenter, zoom: 6.5),
-                      children: [
-                        TileLayer(
-                          urlTemplate:
-                              'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          subdomains: ['a', 'b', 'c'],
-                        ),
-                        MarkerLayer(markers: _markers),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  ...itineraries.map(_buildItineraryCard),
-                ],
-              ),
-    );
-  }
-
-  Widget _buildItineraryCard(ItineraryModel itinerary) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            itinerary.trailId,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 12),
-          ...itinerary.stops.map((stop) {
-            final stopModel = stop.stop;
-            final places = [stopModel.description];
-            final img =
-                stopModel.images.isNotEmpty
-                    ? stopModel.images.first
-                    : 'assets/images/default_stop.png';
-
-            return _dayItem("Day ${stop.day}: ${stopModel.name}", places, img);
-          }),
-        ],
-      ),
-    );
-  }
-
-  Widget _dayItem(String title, List<String> places, String imgPath) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipOval(
-            child:
-                imgPath.startsWith('http')
-                    ? Image.network(
-                      imgPath,
-                      width: 55,
-                      height: 55,
-                      fit: BoxFit.cover,
-                    )
-                    : Image.asset(
-                      imgPath,
-                      width: 55,
-                      height: 55,
-                      fit: BoxFit.cover,
-                    ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
+      await showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return SizedBox(
+            height: 420,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                const SizedBox(height: 12),
+                const Text("Select Your Guide", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    itemCount: guides.length,
+                    itemBuilder: (context, index) {
+                      final guide = guides[index];
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() => selectedGuide = guide);
+                          Navigator.pop(context);
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                          child: Container(
+                            width: 240,
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (guide.photo != null)
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.network(guide.photo!, height: 120, width: double.infinity, fit: BoxFit.cover),
+                                  ),
+                                const SizedBox(height: 8),
+                                Text(guide.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                Text('Phone: ${guide.phone}'),
+                                Text('Price: ${guide.price} birr'),
+                                Text('Lang: ${guide.language}'),
+                                Text('XP: ${guide.experience} years'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ),
-                const SizedBox(height: 4),
-                ...places.map(
-                  (p) => Text('- $p', style: const TextStyle(fontSize: 14)),
                 ),
               ],
             ),
+          );
+        },
+      );
+    } catch (e) {
+      print("❌ Failed to fetch guides: $e");
+    }
+  }
+
+  Future<void> _bookTrail() async {
+  if (selectedGuide == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("⚠️ Please select a guide before booking."),
+        backgroundColor: Colors.orange,
+      ),
+    );
+    return;
+  }
+
+  try {
+    final token = await TokenStorage.getToken();
+    if (token != null) {
+      final decoded = JwtDecoder.decode(token);
+      final uid = decoded['uid'];
+
+      await BookingService.createBooking(BookingModel(
+        userId: uid,
+        guideId: selectedGuide!.id,
+        trailId: widget.trailId,
+        date: startDate!,
+      ));
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("✅ Booking confirmed!")),
+        );
+        context.go('/saved');
+      }
+    }
+  } catch (e) {
+    print("❌ Booking failed: $e");
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("❌ Failed to complete booking."),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+}
+
+
+  @override
+  Widget build(BuildContext context) {
+    final polyPoints = selectedStops
+        .where((s) => s.lat != null && s.lng != null)
+        .map((s) => LatLng(s.lat!, s.lng!))
+        .toList();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${widget.trailTitle} Itinerary'),
+        backgroundColor: Colors.green,
+        actions: [
+          TextButton(
+            onPressed: _showGuideSelector,
+            child: const Text("Choose Guide", style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
+      bottomNavigationBar: const BottomNavBar(currentIndex: 3),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _bookTrail,
+        label: const Text("Book Trail"),
+        icon: const Icon(Icons.check),
+        backgroundColor: Colors.green,
+      ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                ...selectedStops.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final stop = entry.value;
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade50,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ListTile(
+                      title: Text('Day ${index + 1}: ${stop.name}'),
+                      subtitle: Text(stop.description),
+                      contentPadding: const EdgeInsets.all(8),
+                    ),
+                  );
+                }),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 300,
+                  child: FlutterMap(
+                    options: MapOptions(
+                      center: polyPoints.isNotEmpty ? polyPoints[0] : LatLng(7.6736, 36.8350),
+                      zoom: 6.0,
+                    ),
+                    children: [
+                      TileLayer(
+                        urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        userAgentPackageName: 'com.yourcompany.wanderoromia',
+                      ),
+                      MarkerLayer(
+                        markers: polyPoints.map((p) => Marker(
+                          width: 40,
+                          height: 40,
+                          point: p,
+                          child: const Icon(Icons.location_pin, color: Colors.red, size: 36),
+                        )).toList(),
+                      ),
+                      PolylineLayer(
+                        polylines: [
+                          Polyline(
+                            points: polyPoints,
+                            strokeWidth: 4.0,
+                            color: Colors.blueAccent,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

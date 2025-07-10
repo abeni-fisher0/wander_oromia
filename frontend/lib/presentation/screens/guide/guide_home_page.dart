@@ -1,170 +1,218 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/widgets/bottom_nav.dart';
 import 'package:go_router/go_router.dart';
-import '../../widgets/guide_bottom_nav.dart';
+import 'package:frontend/data/models/trail_model.dart';
+import 'package:frontend/data/services/trail_service.dart';
+import 'package:frontend/presentation/widgets/guide_bottom_nav.dart';
 
-class GuideHomePage extends StatelessWidget {
+class GuideHomePage extends StatefulWidget {
   const GuideHomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> categories = [
-      {
-        'title': 'Ireecha Trail',
-        'image': 'assets/images/irrecha.jpg',
-        'route': '/trail/festivals',
-      },
-      {
-        'title': 'Photgraphy Trail',
-        'image': 'assets/images/land.jpg',
-        'route': '/trail/festivals',
-      },
-      {
-        'title': 'cuisineTrail',
-        'image': 'assets/images/food.jpg',
-        'route': '/trail/festivals',
-      },
-    ];
+  State<GuideHomePage> createState() => _GuideHomePageState();
+}
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      bottomNavigationBar: const GuideBottomNavBar(currentIndex: 0),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+class _GuideHomePageState extends State<GuideHomePage> {
+  final Map<String, String> displayToCategory = {
+    'Festivals': 'Festivals',
+    'Foods and Cuisines': 'Food & Cuisine',
+    'Wildlife preservation': 'Wildlife',
+  };
+
+  final Map<String, List<TrailModel>> categoryTrails = {};
+  final TextEditingController searchController = TextEditingController();
+  List<TrailModel> searchResults = [];
+  bool isSearching = false;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTrails();
+  }
+
+  Future<void> _loadTrails() async {
+    try {
+      for (var entry in displayToCategory.entries) {
+        final trails = await TrailService.getTrailsByCategory(entry.value);
+        categoryTrails[entry.key] = trails;
+      }
+    } catch (e) {
+      print('Error loading trails: $e');
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
+
+  Future<void> _searchTrails(String query) async {
+    if (query.trim().isEmpty) {
+      setState(() {
+        isSearching = false;
+        searchResults = [];
+      });
+      return;
+    }
+
+    setState(() => isLoading = true);
+    try {
+      final results = await TrailService.searchTrails(query);
+      setState(() {
+        isSearching = true;
+        searchResults = results;
+      });
+    } catch (e) {
+      print('Search error: $e');
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
+
+  void navigateToTrail(BuildContext context, TrailModel trail) {
+    context.push('/guide-trail', extra: {
+      'trailId': trail.id,
+      'title': trail.title,
+    });
+  }
+
+  Widget buildSection(String displayName, List<TrailModel> trails) {
+    final limited = trails.take(5).toList();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(displayName,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              TextButton(
+                onPressed: () {},
+                child: const Text("See all"),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 180,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: limited.length,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            itemBuilder: (context, index) {
+              final trail = limited[index];
+              return buildTrailCard(trail);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildTrailCard(TrailModel trail) {
+    return GestureDetector(
+      onTap: () => navigateToTrail(context, trail),
+      child: Container(
+        width: 130,
+        margin: const EdgeInsets.only(right: 12),
+        decoration: BoxDecoration(
+          color: Colors.green.shade50,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // 🔍 Search bar
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                color: const Color(0xFFE9FFDD),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Row(
-                children: [
-                  Icon(Icons.search, color: Colors.green),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Discover places',
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ],
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              child: Image.network(
+                trail.imageUrl,
+                height: 100,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => Container(
+                  height: 100,
+                  color: Colors.grey.shade300,
+                  child: const Icon(Icons.image, size: 40),
+                ),
               ),
             ),
-
-            const SizedBox(height: 20),
-
-            // 🪧 Welcome text + logo
-            Row(
-              children: [
-                const Expanded(
-                  child: Text(
-                    'Welcome to wander Oromia!',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'IrishGrover',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Image.asset(
-                  'assets/images/logo.png',
-                  height: 30,
-                  width: 30,
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                trail.title,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-
-            const SizedBox(height: 24),
-            _buildCategorySection(context, 'Festivals', categories),
-            const SizedBox(height: 24),
-            _buildCategorySection(context, 'Foods and Cuisines', categories),
-            const SizedBox(height: 24),
-            _buildCategorySection(context, 'Wildlife preservation', categories),
-            const SizedBox(height: 80),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text('Explore', style: TextStyle(color: Colors.blue)),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCategorySection(BuildContext context, String title, List<Map<String, dynamic>> items) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'IrishGrover',
-          ),
-        ),
-        const SizedBox(height: 12),
-        SizedBox(
-          height: 170,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return GestureDetector(
-                onTap: () => context.go(item['route']),
-                child: Container(
-                  width: 140,
-                  margin: const EdgeInsets.only(right: 12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE4FFDD),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                        child: Image.asset(
-                          item['image'],
-                          width: 140,
-                          height: 100,
-                          fit: BoxFit.cover,
+  @override
+  Widget build(BuildContext context) {
+    final displayNames = displayToCategory.keys.toList();
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      bottomNavigationBar: const GuideBottomNavBar(currentIndex: 0),
+      body: SafeArea(
+        child: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : ListView(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: TextField(
+                      controller: searchController,
+                      onChanged: _searchTrails,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: searchController.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  searchController.clear();
+                                  _searchTrails('');
+                                },
+                              )
+                            : null,
+                        hintText: 'Search trails...',
+                        filled: true,
+                        fillColor: const Color(0xFFDFFFD9),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          borderSide: BorderSide.none,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item['title'],
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                                fontFamily: 'IrishGrover',
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              'Explore',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 12,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+                  if (isSearching)
+                    ...searchResults.map((trail) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          child: buildTrailCard(trail),
+                        ))
+                  else ...[
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        'Guide Trail List',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    for (final display in displayNames)
+                      if (categoryTrails[display]?.isNotEmpty ?? false)
+                        buildSection(display, categoryTrails[display]!),
+                    const SizedBox(height: 20),
+                  ],
+                ],
+              ),
+      ),
     );
   }
 }

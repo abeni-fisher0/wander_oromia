@@ -1,4 +1,4 @@
-const Itinerary = require("../models/Itinerary");
+const Itinerary = require('../models/Itinerary');
 
 exports.createItinerary = async (req, res) => {
   try {
@@ -8,17 +8,19 @@ exports.createItinerary = async (req, res) => {
     });
     res.status(201).json(itinerary);
   } catch (err) {
-    res.status(500).json({ error: "Could not create itinerary" });
+    console.error('❌ Error creating itinerary:', err);
+    res.status(500).json({ error: 'Could not create itinerary' });
   }
 };
 
 exports.getMyItineraries = async (req, res) => {
   try {
     const itineraries = await Itinerary.find({ userId: req.user.uid }).populate(
-      "trailId stops.stopId"
+      'trailId stops.stopId'
     );
     res.json(itineraries);
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch itineraries" });
+    console.error('❌ Error fetching itineraries:', err);
+    res.status(500).json({ error: 'Failed to fetch itineraries' });
   }
 };

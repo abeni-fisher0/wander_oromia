@@ -53,17 +53,10 @@ class AppRouter {
       // 🌍 Tourist Routes
       GoRoute(path: '/home', builder: (context, state) => const HomePage()),
       GoRoute(
-        path: '/trail/:category',
+        path: '/trail',
         builder: (context, state) {
-          final category = state.pathParameters['category']!;
-          return TrailPage(title: category);
-        },
-      ),
-      GoRoute(
-        path: '/stop/:stopName',
-        builder: (context, state) {
-          final stopName = state.pathParameters['stopName']!;
-          return StopPage(stopName: stopName);
+          final data = state.extra as Map<String, String>;
+          return TrailPage(trailId: data['trailId']!, title: data['title']!);
         },
       ),
       GoRoute(
@@ -72,7 +65,21 @@ class AppRouter {
       ),
       GoRoute(
         path: '/itinerary',
-        builder: (context, state) => const ItineraryMapPage(),
+        builder: (context, state) {
+          final data = state.extra as Map<String, String>;
+          return ItineraryMapPage(
+            trailId: data['trailId']!,
+            trailTitle: data['title']!,
+          );
+        },
+      ),
+
+      GoRoute(
+        path: '/stop/:stopName',
+        builder: (context, state) {
+          final stopName = state.pathParameters['stopName']!;
+          return StopPage(stopName: stopName);
+        },
       ),
       GoRoute(
         path: '/culture',
@@ -82,7 +89,7 @@ class AppRouter {
         path: '/tourist-profile',
         builder: (context, state) => const TouristProfilePage(),
       ),
-      // In your router file
+
       // In your router file
       GoRoute(
         path: '/edit-tourist-profile',
@@ -106,24 +113,34 @@ class AppRouter {
 
       // 🧭 Guide Routes
       GoRoute(
-        path: '/guidehome',
-        builder: (context, state) => const GuideHomePage(),
+        path: '/guide-home',
+        pageBuilder:
+            (context, state) =>
+                MaterialPage(key: state.pageKey, child: const GuideHomePage()),
       ),
       GoRoute(
-        path: '/guidetrail/:title',
+        path: '/upload-guide',
         builder: (context, state) {
-          final title = state.pathParameters['title']!;
-          return GuideTrailPage(title: title);
+          final extra = state.extra as Map<String, String>;
+          return UploadInfoPage(trailId: extra['trailId']!);
         },
       ),
       GoRoute(
-        path: '/upload',
-        builder: (context, state) => const UploadInfoPage(),
+        path: '/guide-trail',
+        builder: (context, state) {
+          final data = state.extra as Map<String, String>;
+          return GuideTrailPage(
+            trailId: data['trailId']!,
+            title: data['title']!,
+          );
+        },
       ),
+
       GoRoute(
         path: '/guidesaved',
-        builder: (context, state) => const guide.SavedTrailsPage(),
+        builder: (context, state) => const guide.GuideSavedTrailsPage(),
       ),
+
       GoRoute(
         path: '/guideprofile',
         builder: (context, state) => const GuideProfilePage(),

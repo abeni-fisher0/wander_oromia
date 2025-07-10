@@ -21,9 +21,9 @@ class StopModel {
 
   factory StopModel.fromJson(Map<String, dynamic> json) {
     return StopModel(
-      id: json['_id'],
-      trailId: json['trailId'],
-      name: json['name'],
+      id: json['_id'] ?? '',
+      trailId: json['trailId'] ?? '',
+      name: json['name'] ?? '',
       description: json['description'] ?? '',
       images: List<String>.from(json['images'] ?? []),
       videos: List<String>.from(json['videos'] ?? []),

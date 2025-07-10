@@ -12,13 +12,17 @@ class GuideBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
+      backgroundColor: const Color(0xFF145A32),
+      selectedItemColor: Colors.white, 
+      unselectedItemColor: Colors.white,
+      type: BottomNavigationBarType.fixed,
       onTap: (index) {
         switch (index) {
           case 0:
-            context.go('/guidehome');
+            context.go('/guide-home');
             break;
           case 1:
-            context.go('/upload');
+            context.go('/upload-guide');
             break;
           case 2:
             context.go('/guidesaved');

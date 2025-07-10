@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JWT User ID Decoder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .result {
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h2>JWT User ID Decoder</h2>
+  <textarea id="tokenInput" rows="6" placeholder="Paste your JWT token here..."></textarea>
+  <button onclick="decodeToken()">Get User ID</button>
+
+  <p class="result" id="userIdOutput"></p>
+
+  <script>
+    function decodeToken() {
+      const token = document.getElementById('tokenInput').value.trim();
+      if (!token) return;
+
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const userId = payload.uid || payload.userId || 'Not found';
+        document.getElementById('userIdOutput').innerText = `User ID: ${userId}`;
+      } catch (err) {
+        document.getElementById('userIdOutput').innerText = 'Invalid token!';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1162 @@
+[
+  {
+    "title": "Trail 1",
+    "category": "Food & Cuisine",
+    "description": "This is a description for Trail 1 in Food & Cuisine category.",
+    "imageUrl": "https://example.com/images/trail_1.jpg",
+    "stops": [
+      {
+        "name": "Metu",
+        "description": "Discover Metu, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/metu.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.3,
+          "lng": 35.5833
+        }
+      },
+      {
+        "name": "Lake Langano",
+        "description": "Discover Lake Langano, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/lake_langano.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.615,
+          "lng": 38.7378
+        }
+      },
+      {
+        "name": "Nekemte",
+        "description": "Discover Nekemte, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/nekemte.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.0833,
+          "lng": 36.55
+        }
+      },
+      {
+        "name": "Goba",
+        "description": "Discover Goba, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/goba.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.0167,
+          "lng": 39.9833
+        }
+      },
+      {
+        "name": "Adama",
+        "description": "Discover Adama, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/adama.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.5406,
+          "lng": 39.2697
+        }
+      },
+      {
+        "name": "Adama",
+        "description": "Discover Adama, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/adama.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.5406,
+          "lng": 39.2697
+        }
+      },
+      {
+        "name": "Shashamane",
+        "description": "Discover Shashamane, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/shashamane.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.2,
+          "lng": 38.6
+        }
+      },
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      },
+      {
+        "name": "Bale Mountains",
+        "description": "Discover Bale Mountains, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/bale_mountains.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.7494,
+          "lng": 39.7586
+        }
+      }
+    ]
+  },
+  {
+    "title": "Trail 2",
+    "category": "Wildlife",
+    "description": "This is a description for Trail 2 in Wildlife category.",
+    "imageUrl": "https://example.com/images/trail_2.jpg",
+    "stops": [
+      {
+        "name": "Bale Mountains",
+        "description": "Discover Bale Mountains, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/bale_mountains.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.7494,
+          "lng": 39.7586
+        }
+      },
+      {
+        "name": "Arsi",
+        "description": "Discover Arsi, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/arsi.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.5,
+          "lng": 39.0
+        }
+      },
+      {
+        "name": "Adama",
+        "description": "Discover Adama, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/adama.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.5406,
+          "lng": 39.2697
+        }
+      },
+      {
+        "name": "Goba",
+        "description": "Discover Goba, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/goba.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.0167,
+          "lng": 39.9833
+        }
+      },
+      {
+        "name": "Arsi",
+        "description": "Discover Arsi, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/arsi.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.5,
+          "lng": 39.0
+        }
+      },
+      {
+        "name": "Yirgacheffe",
+        "description": "Discover Yirgacheffe, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/yirgacheffe.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.1629,
+          "lng": 38.205
+        }
+      },
+      {
+        "name": "Yirgacheffe",
+        "description": "Discover Yirgacheffe, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/yirgacheffe.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.1629,
+          "lng": 38.205
+        }
+      },
+      {
+        "name": "Goba",
+        "description": "Discover Goba, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/goba.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.0167,
+          "lng": 39.9833
+        }
+      },
+      {
+        "name": "Bale Mountains",
+        "description": "Discover Bale Mountains, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/bale_mountains.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.7494,
+          "lng": 39.7586
+        }
+      }
+    ]
+  },
+  {
+    "title": "Trail 3",
+    "category": "Festivals",
+    "description": "This is a description for Trail 3 in Festivals category.",
+    "imageUrl": "https://example.com/images/trail_3.jpg",
+    "stops": [
+      {
+        "name": "Lake Langano",
+        "description": "Discover Lake Langano, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/lake_langano.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.615,
+          "lng": 38.7378
+        }
+      },
+      {
+        "name": "Adama",
+        "description": "Discover Adama, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/adama.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.5406,
+          "lng": 39.2697
+        }
+      },
+      {
+        "name": "Arsi",
+        "description": "Discover Arsi, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/arsi.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.5,
+          "lng": 39.0
+        }
+      },
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      },
+      {
+        "name": "Sof Omar Cave",
+        "description": "Discover Sof Omar Cave, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/sof_omar_cave.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.9,
+          "lng": 40.8333
+        }
+      },
+      {
+        "name": "Nekemte",
+        "description": "Discover Nekemte, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/nekemte.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.0833,
+          "lng": 36.55
+        }
+      },
+      {
+        "name": "Lake Langano",
+        "description": "Discover Lake Langano, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/lake_langano.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.615,
+          "lng": 38.7378
+        }
+      },
+      {
+        "name": "Shashamane",
+        "description": "Discover Shashamane, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/shashamane.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.2,
+          "lng": 38.6
+        }
+      },
+      {
+        "name": "Harar",
+        "description": "Discover Harar, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/harar.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.3111,
+          "lng": 42.1256
+        }
+      }
+    ]
+  },
+  {
+    "title": "Trail 4",
+    "category": "Wildlife",
+    "description": "This is a description for Trail 4 in Wildlife category.",
+    "imageUrl": "https://example.com/images/trail_4.jpg",
+    "stops": [
+      {
+        "name": "Adama",
+        "description": "Discover Adama, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/adama.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.5406,
+          "lng": 39.2697
+        }
+      },
+      {
+        "name": "Goba",
+        "description": "Discover Goba, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/goba.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.0167,
+          "lng": 39.9833
+        }
+      },
+      {
+        "name": "Goba",
+        "description": "Discover Goba, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/goba.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.0167,
+          "lng": 39.9833
+        }
+      },
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      },
+      {
+        "name": "Arsi",
+        "description": "Discover Arsi, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/arsi.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.5,
+          "lng": 39.0
+        }
+      },
+      {
+        "name": "Nekemte",
+        "description": "Discover Nekemte, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/nekemte.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.0833,
+          "lng": 36.55
+        }
+      },
+      {
+        "name": "Shashamane",
+        "description": "Discover Shashamane, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/shashamane.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.2,
+          "lng": 38.6
+        }
+      },
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      },
+      {
+        "name": "Harar",
+        "description": "Discover Harar, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/harar.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.3111,
+          "lng": 42.1256
+        }
+      }
+    ]
+  },
+  {
+    "title": "Trail 5",
+    "category": "Food & Cuisine",
+    "description": "This is a description for Trail 5 in Food & Cuisine category.",
+    "imageUrl": "https://example.com/images/trail_5.jpg",
+    "stops": [
+      {
+        "name": "Sof Omar Cave",
+        "description": "Discover Sof Omar Cave, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/sof_omar_cave.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.9,
+          "lng": 40.8333
+        }
+      },
+      {
+        "name": "Yirgacheffe",
+        "description": "Discover Yirgacheffe, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/yirgacheffe.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.1629,
+          "lng": 38.205
+        }
+      },
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      },
+      {
+        "name": "Shashamane",
+        "description": "Discover Shashamane, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/shashamane.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.2,
+          "lng": 38.6
+        }
+      },
+      {
+        "name": "Harar",
+        "description": "Discover Harar, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/harar.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.3111,
+          "lng": 42.1256
+        }
+      },
+      {
+        "name": "Sof Omar Cave",
+        "description": "Discover Sof Omar Cave, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/sof_omar_cave.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.9,
+          "lng": 40.8333
+        }
+      },
+      {
+        "name": "Goba",
+        "description": "Discover Goba, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/goba.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.0167,
+          "lng": 39.9833
+        }
+      },
+      {
+        "name": "Yirgacheffe",
+        "description": "Discover Yirgacheffe, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/yirgacheffe.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.1629,
+          "lng": 38.205
+        }
+      },
+      {
+        "name": "Shashamane",
+        "description": "Discover Shashamane, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/shashamane.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.2,
+          "lng": 38.6
+        }
+      }
+    ]
+  },
+  {
+    "title": "Trail 6",
+    "category": "Festivals",
+    "description": "This is a description for Trail 6 in Festivals category.",
+    "imageUrl": "https://example.com/images/trail_6.jpg",
+    "stops": [
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      },
+      {
+        "name": "Metu",
+        "description": "Discover Metu, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/metu.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.3,
+          "lng": 35.5833
+        }
+      },
+      {
+        "name": "Lake Langano",
+        "description": "Discover Lake Langano, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/lake_langano.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.615,
+          "lng": 38.7378
+        }
+      },
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      },
+      {
+        "name": "Shashamane",
+        "description": "Discover Shashamane, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/shashamane.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.2,
+          "lng": 38.6
+        }
+      },
+      {
+        "name": "Sof Omar Cave",
+        "description": "Discover Sof Omar Cave, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/sof_omar_cave.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.9,
+          "lng": 40.8333
+        }
+      },
+      {
+        "name": "Lake Langano",
+        "description": "Discover Lake Langano, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/lake_langano.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.615,
+          "lng": 38.7378
+        }
+      },
+      {
+        "name": "Bale Mountains",
+        "description": "Discover Bale Mountains, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/bale_mountains.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.7494,
+          "lng": 39.7586
+        }
+      },
+      {
+        "name": "Bale Mountains",
+        "description": "Discover Bale Mountains, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/bale_mountains.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.7494,
+          "lng": 39.7586
+        }
+      }
+    ]
+  },
+  {
+    "title": "Trail 7",
+    "category": "Festivals",
+    "description": "This is a description for Trail 7 in Festivals category.",
+    "imageUrl": "https://example.com/images/trail_7.jpg",
+    "stops": [
+      {
+        "name": "Bale Mountains",
+        "description": "Discover Bale Mountains, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/bale_mountains.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.7494,
+          "lng": 39.7586
+        }
+      },
+      {
+        "name": "Yirgacheffe",
+        "description": "Discover Yirgacheffe, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/yirgacheffe.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.1629,
+          "lng": 38.205
+        }
+      },
+      {
+        "name": "Bale Mountains",
+        "description": "Discover Bale Mountains, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/bale_mountains.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.7494,
+          "lng": 39.7586
+        }
+      },
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      },
+      {
+        "name": "Lake Langano",
+        "description": "Discover Lake Langano, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/lake_langano.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.615,
+          "lng": 38.7378
+        }
+      },
+      {
+        "name": "Goba",
+        "description": "Discover Goba, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/goba.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.0167,
+          "lng": 39.9833
+        }
+      },
+      {
+        "name": "Lake Langano",
+        "description": "Discover Lake Langano, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/lake_langano.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.615,
+          "lng": 38.7378
+        }
+      },
+      {
+        "name": "Bale Mountains",
+        "description": "Discover Bale Mountains, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/bale_mountains.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.7494,
+          "lng": 39.7586
+        }
+      },
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      }
+    ]
+  },
+  {
+    "title": "Trail 8",
+    "category": "Food & Cuisine",
+    "description": "This is a description for Trail 8 in Food & Cuisine category.",
+    "imageUrl": "https://example.com/images/trail_8.jpg",
+    "stops": [
+      {
+        "name": "Sof Omar Cave",
+        "description": "Discover Sof Omar Cave, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/sof_omar_cave.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.9,
+          "lng": 40.8333
+        }
+      },
+      {
+        "name": "Yirgacheffe",
+        "description": "Discover Yirgacheffe, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/yirgacheffe.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.1629,
+          "lng": 38.205
+        }
+      },
+      {
+        "name": "Adama",
+        "description": "Discover Adama, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/adama.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.5406,
+          "lng": 39.2697
+        }
+      },
+      {
+        "name": "Lake Langano",
+        "description": "Discover Lake Langano, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/lake_langano.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.615,
+          "lng": 38.7378
+        }
+      },
+      {
+        "name": "Harar",
+        "description": "Discover Harar, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/harar.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.3111,
+          "lng": 42.1256
+        }
+      },
+      {
+        "name": "Nekemte",
+        "description": "Discover Nekemte, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/nekemte.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.0833,
+          "lng": 36.55
+        }
+      },
+      {
+        "name": "Adama",
+        "description": "Discover Adama, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/adama.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.5406,
+          "lng": 39.2697
+        }
+      },
+      {
+        "name": "Lake Langano",
+        "description": "Discover Lake Langano, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/lake_langano.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.615,
+          "lng": 38.7378
+        }
+      },
+      {
+        "name": "Arsi",
+        "description": "Discover Arsi, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/arsi.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.5,
+          "lng": 39.0
+        }
+      }
+    ]
+  },
+  {
+    "title": "Trail 9",
+    "category": "Festivals",
+    "description": "This is a description for Trail 9 in Festivals category.",
+    "imageUrl": "https://example.com/images/trail_9.jpg",
+    "stops": [
+      {
+        "name": "Adama",
+        "description": "Discover Adama, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/adama.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.5406,
+          "lng": 39.2697
+        }
+      },
+      {
+        "name": "Nekemte",
+        "description": "Discover Nekemte, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/nekemte.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.0833,
+          "lng": 36.55
+        }
+      },
+      {
+        "name": "Bale Mountains",
+        "description": "Discover Bale Mountains, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/bale_mountains.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.7494,
+          "lng": 39.7586
+        }
+      },
+      {
+        "name": "Shashamane",
+        "description": "Discover Shashamane, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/shashamane.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.2,
+          "lng": 38.6
+        }
+      },
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      },
+      {
+        "name": "Arsi",
+        "description": "Discover Arsi, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/arsi.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.5,
+          "lng": 39.0
+        }
+      },
+      {
+        "name": "Adama",
+        "description": "Discover Adama, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/adama.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.5406,
+          "lng": 39.2697
+        }
+      },
+      {
+        "name": "Harar",
+        "description": "Discover Harar, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/harar.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.3111,
+          "lng": 42.1256
+        }
+      },
+      {
+        "name": "Harar",
+        "description": "Discover Harar, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/harar.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.3111,
+          "lng": 42.1256
+        }
+      }
+    ]
+  },
+  {
+    "title": "Trail 10",
+    "category": "Nature & Eco",
+    "description": "This is a description for Trail 10 in Nature & Eco category.",
+    "imageUrl": "https://example.com/images/trail_10.jpg",
+    "stops": [
+      {
+        "name": "Goba",
+        "description": "Discover Goba, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/goba.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.0167,
+          "lng": 39.9833
+        }
+      },
+      {
+        "name": "Metu",
+        "description": "Discover Metu, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/metu.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 8.3,
+          "lng": 35.5833
+        }
+      },
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      },
+      {
+        "name": "Yirgacheffe",
+        "description": "Discover Yirgacheffe, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/yirgacheffe.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.1629,
+          "lng": 38.205
+        }
+      },
+      {
+        "name": "Bale Mountains",
+        "description": "Discover Bale Mountains, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/bale_mountains.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.7494,
+          "lng": 39.7586
+        }
+      },
+      {
+        "name": "Sof Omar Cave",
+        "description": "Discover Sof Omar Cave, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/sof_omar_cave.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 6.9,
+          "lng": 40.8333
+        }
+      },
+      {
+        "name": "Arsi",
+        "description": "Discover Arsi, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/arsi.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.5,
+          "lng": 39.0
+        }
+      },
+      {
+        "name": "Harar",
+        "description": "Discover Harar, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/harar.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 9.3111,
+          "lng": 42.1256
+        }
+      },
+      {
+        "name": "Jimma",
+        "description": "Discover Jimma, a cultural and natural gem.",
+        "images": [
+          "https://example.com/images/jimma.jpg"
+        ],
+        "videos": [],
+        "location": {
+          "lat": 7.6736,
+          "lng": 36.835
+        }
+      }
+    ]
+  }
+]

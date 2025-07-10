@@ -1,23 +1,21 @@
 // models/Stop.js
 const mongoose = require("mongoose");
 
-const stopSchema = new mongoose.Schema(
-  {
-    trailId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Trail",
-      required: true,
-    },
-    name: { type: String, required: true },
-    description: String,
-    images: [String],
-    videos: [String],
-    location: {
-      lat: Number,
-      lng: Number,
-    },
+const stopSchema = new mongoose.Schema({
+  name: String,
+  description: String,
+  images: [String],
+  videos: [String],
+  location: {
+    lat: Number,
+    lng: Number,
   },
-  { timestamps: true }
-);
+  trailId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Trail',
+    required: true,
+  },
+});
+
 
 module.exports = mongoose.model("Stop", stopSchema);

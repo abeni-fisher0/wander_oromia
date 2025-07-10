@@ -1,14 +1,12 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 const {
   createItinerary,
   getMyItineraries,
-} = require("../controllers/itineraryController");
-const auth = require("../middleware/auth");
-const restrictTo = require("../middleware/role");
+} = require('../controllers/itineraryController');
+const auth = require('../middleware/auth');
 
-// Tourists only
-router.post("/", auth, restrictTo("tourist"), createItinerary);
-router.get("/", auth, restrictTo("tourist"), getMyItineraries);
+router.post('/', auth, createItinerary);
+router.get('/', auth, getMyItineraries);
 
 module.exports = router;

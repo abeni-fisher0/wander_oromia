@@ -19,6 +19,9 @@ class _HomePageState extends State<HomePage> {
   };
 
   final Map<String, List<TrailModel>> categoryTrails = {};
+  final TextEditingController searchController = TextEditingController();
+  List<TrailModel> searchResults = [];
+  bool isSearching = false;
   bool isLoading = true;
 
   @override
@@ -40,14 +43,38 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void navigateToTrailCategory(BuildContext context, String category) {
-    final encoded = Uri.encodeComponent(category);
-    context.push('/trail/$encoded');
+  Future<void> _searchTrails(String query) async {
+    if (query.trim().isEmpty) {
+      setState(() {
+        isSearching = false;
+        searchResults = [];
+      });
+      return;
+    }
+
+    setState(() => isLoading = true);
+    try {
+      final results = await TrailService.searchTrails(query);
+      setState(() {
+        isSearching = true;
+        searchResults = results;
+      });
+    } catch (e) {
+      print('Search error: $e');
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
+
+  void navigateToTrail(BuildContext context, TrailModel trail) {
+    context.push('/trail', extra: {
+      'trailId': trail.id,
+      'title': trail.title,
+    });
   }
 
   Widget buildSection(String displayName, List<TrailModel> trails) {
     final limited = trails.take(5).toList();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -59,7 +86,7 @@ class _HomePageState extends State<HomePage> {
               Text(displayName,
                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               TextButton(
-                onPressed: () => navigateToTrailCategory(context, displayName),
+                onPressed: () {},
                 child: const Text("See all"),
               ),
             ],
@@ -73,52 +100,55 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 12),
             itemBuilder: (context, index) {
               final trail = limited[index];
-              return GestureDetector(
-                onTap: () => navigateToTrailCategory(context, displayName),
-                child: Container(
-                  width: 130,
-                  margin: const EdgeInsets.only(right: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.green.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ClipRRect(
-                        borderRadius:
-                            const BorderRadius.vertical(top: Radius.circular(12)),
-                        child: Image.network(
-                          trail.imageUrl,
-                          height: 100,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Container(
-                            height: 100,
-                            color: Colors.grey.shade300,
-                            child: const Icon(Icons.image, size: 40),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          trail.title,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text('Explore', style: TextStyle(color: Colors.blue)),
-                      ),
-                    ],
-                  ),
-                ),
-              );
+              return buildTrailCard(trail);
             },
           ),
         ),
       ],
+    );
+  }
+
+  Widget buildTrailCard(TrailModel trail) {
+    return GestureDetector(
+      onTap: () => navigateToTrail(context, trail),
+      child: Container(
+        width: 130,
+        margin: const EdgeInsets.only(right: 12),
+        decoration: BoxDecoration(
+          color: Colors.green.shade50,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              child: Image.network(
+                trail.imageUrl,
+                height: 100,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => Container(
+                  height: 100,
+                  color: Colors.grey.shade300,
+                  child: const Icon(Icons.image, size: 40),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                trail.title,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text('Explore', style: TextStyle(color: Colors.blue)),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -134,33 +164,53 @@ class _HomePageState extends State<HomePage> {
             ? const Center(child: CircularProgressIndicator())
             : ListView(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
                     child: TextField(
+                      controller: searchController,
+                      onChanged: _searchTrails,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search),
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: searchController.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  searchController.clear();
+                                  _searchTrails('');
+                                },
+                              )
+                            : null,
                         hintText: 'Discover places',
                         filled: true,
-                        fillColor: Color(0xFFDFFFD9),
-                        border: OutlineInputBorder(
+                        fillColor: const Color(0xFFDFFFD9),
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(12)),
                           borderSide: BorderSide.none,
                         ),
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      'Welcome to Wander Oromia! 🇪🇹',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  if (isSearching)
+                    ...searchResults.map((trail) => Padding(
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          child: buildTrailCard(trail),
+                        ))
+                  else ...[
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        'Welcome to Wander Oromia! 🇪🇹',
+                        style:
+                            TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  for (final display in displayNames)
-                    if (categoryTrails[display]?.isNotEmpty ?? false)
-                      buildSection(display, categoryTrails[display]!),
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 16),
+                    for (final display in displayNames)
+                      if (categoryTrails[display]?.isNotEmpty ?? false)
+                        buildSection(display, categoryTrails[display]!),
+                    const SizedBox(height: 20),
+                  ],
                 ],
               ),
       ),
