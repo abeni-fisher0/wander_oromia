@@ -7,7 +7,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:frontend/data/models/trail_model.dart';
 
 class GuideService {
-  static const String baseUrl = 'http://192.168.1.6:5000/api';
+  static const String baseUrl = 'http://192.168.1.11:5000/api';
 
   static Future<bool> uploadGuide({
     required String name,

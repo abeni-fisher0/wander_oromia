@@ -23,6 +23,7 @@ app.use("/api/saved", require("./routes/savedTrailRoutes"));
 app.use("/api/itineraries", require("./routes/itineraryRoutes"));
 app.use('/api/guides', require('./routes/guideRoutes'));
 app.use("/api/bookings", require("./routes/bookings"));
+app.use("/api/chats", require("./routes/chatRoutes"));
 
 
 // Default root route

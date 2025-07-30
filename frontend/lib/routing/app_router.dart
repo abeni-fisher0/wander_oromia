@@ -20,6 +20,7 @@ import '../presentation/screens/tourist/itinerary_map_page.dart';
 import '../presentation/screens/tourist/cultural_tips_page.dart';
 import '../presentation/screens/tourist/profile_page.dart';
 import '../presentation/screens/tourist/edit_profile_page.dart';
+import '../presentation/screens/tourist/tourist_chat_page.dart';
 
 // Guide Pages
 import '../presentation/screens/guide/guide_home_page.dart';
@@ -88,6 +89,16 @@ class AppRouter {
       GoRoute(
         path: '/tourist-profile',
         builder: (context, state) => const TouristProfilePage(),
+      ),
+      GoRoute(
+        path: '/chat',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, String>;
+          return TouristChatPage(
+            guideId: extra['guideId']!,
+            guideName: extra['guideName']!,
+          );
+        },
       ),
 
       // In your router file

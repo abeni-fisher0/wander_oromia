@@ -5,7 +5,7 @@ import 'package:frontend/data/models/booking_model.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class BookingService {
-  static const String baseUrl = 'http://192.168.1.6:5000/api/bookings';
+  static const String baseUrl = 'http://192.168.1.11:5000/api/bookings';
 
   // ✅ Create a new booking
   static Future<bool> createBooking(BookingModel booking) async {

@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:io';
 
-const String baseUrl = 'http://192.168.1.6:5000/api';
+const String baseUrl = 'http://192.168.1.11:5000/api';
 
 
 class ApiService {
